@@ -1,7 +1,6 @@
-# Verus
+# Verus - Guía de Contribución y Onboarding
 
-Verus es un MVP **mobile-first** construido con **Flutter** y **Serverpod**, orientado al sector financiero en Bolivia.  
-El proyecto busca ofrecer una arquitectura mantenible, con soporte para versiones legacy y un onboarding unificado para futuros desarrolladores.
+Este documento explica cómo levantar el proyecto Verus desde cero, qué comandos ejecutar, qué resultados esperar y algunas notas importantes para el flujo de desarrollo.
 
 ---
 
@@ -29,29 +28,67 @@ El proyecto busca ofrecer una arquitectura mantenible, con soporte para versione
 - [Serverpod](https://serverpod.dev)
 - [Docker](https://www.docker.com/) (para PostgreSQL)
 
-### Pasos
+---
+
+### 1. Clonar el repositorio
 ```bash
-# Clonar el repositorio
 git clone https://github.com/TOMOKI977/verus.git
 cd verus
-
-# Configurar FVM en cada subproyecto
+```
+### 2. Configurar FVM en cada subproyecto
+```bash
 cd verus_flutter && fvm use stable --force
 cd ../verus_client && fvm use stable --force
 cd ../verus_server && fvm use stable --force
-
-# Instalar dependencias
+```
+### 3. Instalar dependencias
+```bash
 fvm flutter pub get
 fvm dart pub get
-
-# Levantar base de datos
+```
+### 4. Levantar base de datos
+```bash
 cd verus_server
 docker compose up -d
-
-# Aplicar migraciones y correr servidor
+```
+### 5. Aplicar migraciones y correr servidor
+```bash
 fvm dart run bin/main.dart --apply-migrations
 fvm dart run bin/main.dart
-
-# Correr la app Flutter
+```
+#### Salida esperada:
+```bash
+SERVERPOD initialized
+Applied database migration: <timestamp>
+WebServer INFO: Webserver listening on http://localhost:8082
+```
+#### Además, verás logs de endpoints de prueba como:
+```bash
+METHOD greeting.hello user=null, queries=0, duration=22µs
+```
+### 6. Correr la app Flutter
+```bash
 cd ../verus_flutter
-fvm flutter run
+fvm flutter run -d web-server
+```
+#### Salida esperada:
+```bash
+lib\main.dart is being served at http://localhost:<port>
+The web-server device requires the Dart Debug Chrome extension...
+```
+## Notas importantes:
+* El servidor web se levanta en un puerto aleatorio (http://localhost:59731 por ejemplo).
+* Para debugging, Flutter solo soporta Chrome y Edge (ambos basados en Chromium).
+* Si quieres probar en Firefox o forks (ej. Zen), abre manualmente la URL en ese navegador.
+⚠️ No tendrás soporte de debugging, solo ejecución.
+
+## 🔑 Comandos útiles durante desarrollo
+* `r` → Hot reload 🔥
+* `R` → Hot restart
+* `q` → Terminar ejecución
+* `d` → Detach (deja la app corriendo pero cierra la sesión actual)
+
+## ✅ Checklist de verificación
+* - [ ] El servidor corre en `http://localhost:8082` y responde al endpoint greeting.hello.
+* - [ ] La app Flutter se levanta en `http://localhost:<port>` y muestra la pantalla inicial.
+* - [ ] Los logs del servidor muestran llamadas desde la app.
