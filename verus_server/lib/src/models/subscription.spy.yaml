@@ -1,0 +1,31 @@
+class: Subscription
+table: subscriptions
+fields:
+  id: int?
+  userId: int # FK a User
+
+  # Plan
+  plan: String # 'trial', 'monthly', 'quarterly', 'semester', 'annual'
+  priceUsdt: double
+
+  # Período
+  startDate: DateTime
+  endDate: DateTime
+
+  # Estado
+  status: String # 'active', 'cancelled', 'expired', 'pending'
+  autoRenew: bool, default=false
+
+  # Cancelación
+  cancelledAt: DateTime?
+  cancellationReason: String?
+
+  # Metadata
+  createdAt: DateTime
+  updatedAt: DateTime
+
+indexes:
+  sub_user_status_idx:
+    fields: userId, status
+  sub_expiring_idx:
+    fields: endDate, status

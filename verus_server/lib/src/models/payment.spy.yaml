@@ -1,0 +1,42 @@
+class: Payment
+table: payments
+fields:
+  id: int?
+  userId: int # FK a User
+  subscriptionId: int? # FK a Subscription
+
+  # Cryptomus
+  cryptomusOrderId: String
+  cryptomusPaymentId: String?
+  cryptomusInvoiceUrl: String?
+
+  # Monto
+  amountUsdt: double
+  currency: String, default='USDT' # 'USDT', 'BTC', 'ETH'
+
+  # Estado
+  status: String, default='pending' # 'pending', 'paid', 'failed', 'expired', 'cancelled'
+
+  # Blockchain
+  txHash: String?
+  network: String? # 'TRC20', 'ERC20', 'BEP20'
+
+  # Fechas
+  createdAt: DateTime
+  paidAt: DateTime?
+  expiresAt: DateTime # ~15 minutos
+
+  # Webhook
+  webhookPayload: String? # JSON completo
+  webhookReceivedAt: DateTime?
+
+  updatedAt: DateTime
+
+indexes:
+  payment_user_idx:
+    fields: userId, createdAt
+  payment_order_idx:
+    fields: cryptomusOrderId
+    unique: true
+  payment_status_idx:
+    fields: status, expiresAt

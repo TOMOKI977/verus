@@ -1,0 +1,40 @@
+class: BankAccount
+table: bank_accounts
+fields:
+  id: int?
+  userId: int # FK a User
+
+  # Identificación
+  providerName: String # 'Banco Nacional', 'BCP', 'Tigo Money'
+  accountIdentifier: String # Número de cuenta / teléfono / email
+  accountType: String # 'checking', 'savings', 'wallet', 'cash'
+
+  # Información adicional
+  accountHolderName: String?
+  currency: String # BOB, USD, etc.
+  country: String # BO, AR, PE
+
+  # Para billeteras digitales
+  isWallet: bool, default=false
+  qrAlias: String?
+
+  # Verificación
+  isVerified: bool, default=false
+  verificationMethod: String? # 'document', 'micro_deposit', 'manual'
+  verifiedAt: DateTime?
+
+  # Estado
+  status: String, default='active' # 'active', 'inactive', 'pending_verification'
+
+  # Metadata
+  notes: String?
+  connectedAt: DateTime
+  lastUsedAt: DateTime?
+  createdAt: DateTime
+  updatedAt: DateTime
+
+indexes:
+  bank_user_provider_idx:
+    fields: userId, providerName
+  bank_status_idx:
+    fields: userId, status
