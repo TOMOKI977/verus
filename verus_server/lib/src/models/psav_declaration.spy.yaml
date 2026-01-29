@@ -1,0 +1,36 @@
+class: PsavDeclaration
+table: psav_declarations
+fields:
+  id: int?
+  userId: int # FK a User
+
+  # Período
+  declarationType: String # 'monthly', 'quarterly', 'annual'
+  periodStart: DateTime
+  periodEnd: DateTime
+
+  # Datos
+  country: String # BO, AR, etc.
+  totalTransactions: int
+  totalVolumeUsdt: double
+  totalVolumeLocal: double
+  localCurrency: String
+
+  # Archivos
+  reportPdfUrl: String?
+  officialFormUrl: String?
+
+  # Estado
+  status: String # 'draft', 'submitted', 'accepted', 'rejected'
+  submittedAt: DateTime?
+  responseAt: DateTime?
+  responseNotes: String?
+
+  createdAt: DateTime
+  updatedAt: DateTime
+
+indexes:
+  psav_user_period_idx:
+    fields: userId, periodStart, periodEnd
+  psav_status_idx:
+    fields: status, country

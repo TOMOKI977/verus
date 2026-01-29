@@ -1,0 +1,24 @@
+class: EmailVerification
+table: email_verifications
+fields:
+  id: int?
+  userId: int # FK a User
+
+  email: String
+  token: String
+
+  # Estado
+  isUsed: bool, default=false
+  usedAt: DateTime?
+
+  # Expiración
+  expiresAt: DateTime # 24 horas
+
+  createdAt: DateTime
+
+indexes:
+  email_token_idx:
+    fields: token
+    unique: true
+  email_user_idx:
+    fields: userId, isUsed

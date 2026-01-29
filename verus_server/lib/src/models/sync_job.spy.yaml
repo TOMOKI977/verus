@@ -1,0 +1,38 @@
+class: SyncJob
+table: sync_jobs
+fields:
+  id: int?
+  userId: int # FK a User
+  apiKeyId: int # FK a ApiKey
+
+  # Job
+  jobId: String # UUID
+  jobType: String # 'manual', 'scheduled', 'retry'
+
+  # Estado
+  status: String # 'queued', 'running', 'completed', 'failed'
+
+  # Progreso
+  totalTransactions: int, default=0
+  processedTransactions: int, default=0
+  newTransactions: int, default=0
+  updatedTransactions: int, default=0
+
+  # Tiempo
+  startedAt: DateTime?
+  completedAt: DateTime?
+  durationSeconds: int?
+
+  # Errores
+  errorMessage: String?
+  errorDetails: String? # JSON
+  retryCount: int, default=0
+
+  createdAt: DateTime
+  updatedAt: DateTime
+
+indexes:
+  sync_user_status_idx:
+    fields: userId, status
+  sync_apikey_idx:
+    fields: apiKeyId, createdAt

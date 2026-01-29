@@ -1,0 +1,32 @@
+class: AuditLog
+table: audit_logs
+fields:
+  id: int?
+  userId: int?
+
+  # Acción
+  action: String # 'login', 'register', 'add_apikey', etc.
+  resource: String? # 'user', 'apikey', 'transaction'
+  resourceId: int?
+
+  # Contexto
+  ipAddress: String?
+  userAgent: String?
+
+  # Datos
+  oldValues: String? # JSON
+  newValues: String? # JSON
+
+  # Resultado
+  success: bool
+  errorMessage: String?
+
+  timestamp: DateTime
+
+indexes:
+  audit_user_idx:
+    fields: userId, timestamp
+  audit_action_idx:
+    fields: action, timestamp
+  audit_resource_idx:
+    fields: resource, resourceId

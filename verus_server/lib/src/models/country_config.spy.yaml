@@ -1,0 +1,40 @@
+class: CountryConfig
+table: country_configs
+fields:
+  id: int?
+  countryCode: String # ISO: BO, AR, CL, PE
+  countryName: String
+
+  # Regulación
+  requiresPsav: bool
+  psavName: String? # "PSAV" en BO
+  psavAuthorityName: String? # "ASFI" en Bolivia
+  psavAuthorityUrl: String?
+
+  # Límites sin certificación
+  dailyLimitWithoutCert: double?
+  monthlyLimitWithoutCert: double?
+  limitCurrency: String? # BOB, ARS, etc.
+
+  # Monedas
+  supportedCurrencies: String # JSON: ['BOB', 'USD']
+  primaryCurrency: String
+
+  # Regional
+  timezone: String
+  dateFormat: String
+  numberFormat: String
+
+  # Estado
+  isActive: bool, default=true
+  comingSoon: bool, default=false
+
+  createdAt: DateTime
+  updatedAt: DateTime
+
+indexes:
+  country_code_idx:
+    fields: countryCode
+    unique: true
+  country_active_idx:
+    fields: isActive, comingSoon
