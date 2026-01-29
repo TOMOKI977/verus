@@ -1,0 +1,31 @@
+class: Trans
+table: transactions
+fields:
+  id: int?
+  userId: int # FK a User
+  apiKeyId: int # FK a ApiKey
+  orderNumber: String # único global
+  exchange: String
+  timestamp: DateTime
+  cryptoAmountUsdt: double
+  localAmount: double
+  localCurrency: String
+  exchangeRate: double
+  txType: String # 'buy', 'sell'
+  status: String # 'completed', 'cancelled', etc.
+  counterpartyName: String?
+  counterpartyUserId: String?
+  profitUsdt: double?
+  profitLocal: double?
+  profitMarginPercent: double?
+  bankProofUrl: String?
+  hasProof: bool, default=false
+  createdAt: DateTime
+  updatedAt: DateTime
+
+indexes:
+  tx_order_number_idx:
+    fields: orderNumber
+    unique: true
+  tx_user_timestamp_idx:
+    fields: userId, timestamp

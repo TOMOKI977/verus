@@ -1,0 +1,20 @@
+class: ApiKey
+table: api_keys
+fields:
+  id: int?
+  userId: int # FK a User
+  exchangeName: String # 'binance', 'bybit', 'bitget'
+  apiKeyEncrypted: String
+  apiSecretEncrypted: String?
+  passphraseEncrypted: String?
+  autoSyncEnabled: bool, default=true
+  syncFrequency: String, default='daily'
+  lastSyncAt: DateTime?
+  syncStatus: String, default='idle'
+  createdAt: DateTime
+  updatedAt: DateTime
+
+indexes:
+  apikey_user_exchange_idx:
+    fields: userId, exchangeName
+    unique: true

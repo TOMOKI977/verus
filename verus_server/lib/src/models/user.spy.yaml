@@ -1,0 +1,30 @@
+class: User
+table: users
+fields:
+  id: int?
+  email: String
+  passwordHash: String
+  firstName: String
+  lastName: String
+  country: String # Código ISO
+  accountType: String, default='natural' # 'natural', 'juridico'
+  role: String, default='user' # 'admin', 'user'
+  hasPsav: bool, default=false
+  psavExpiresAt: DateTime?
+  preferredCurrencies: String # JSON array
+  primaryCurrency: String, default='BOB'
+  timezone: String, default='America/La_Paz'
+  language: String, default='es'
+  totpSecret: String?
+  totpEnabled: bool, default=false
+  onboardingCompleted: bool, default=false
+  activeSubscriptionId: int?
+  emailVerified: bool, default=false
+  lastLoginAt: DateTime?
+  createdAt: DateTime
+  updatedAt: DateTime
+
+indexes:
+  user_email_idx:
+    fields: email
+    unique: true
