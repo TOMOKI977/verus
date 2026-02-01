@@ -24,11 +24,13 @@ abstract class ApiKey implements _i1.SerializableModel {
     String? syncFrequency,
     this.lastSyncAt,
     String? syncStatus,
+    String? status,
     required this.createdAt,
     required this.updatedAt,
   }) : autoSyncEnabled = autoSyncEnabled ?? true,
        syncFrequency = syncFrequency ?? 'daily',
-       syncStatus = syncStatus ?? 'idle';
+       syncStatus = syncStatus ?? 'idle',
+       status = status ?? 'active';
 
   factory ApiKey({
     int? id,
@@ -41,6 +43,7 @@ abstract class ApiKey implements _i1.SerializableModel {
     String? syncFrequency,
     DateTime? lastSyncAt,
     String? syncStatus,
+    String? status,
     required DateTime createdAt,
     required DateTime updatedAt,
   }) = _ApiKeyImpl;
@@ -59,6 +62,7 @@ abstract class ApiKey implements _i1.SerializableModel {
           ? null
           : _i1.DateTimeJsonExtension.fromJson(jsonSerialization['lastSyncAt']),
       syncStatus: jsonSerialization['syncStatus'] as String?,
+      status: jsonSerialization['status'] as String?,
       createdAt: _i1.DateTimeJsonExtension.fromJson(
         jsonSerialization['createdAt'],
       ),
@@ -91,6 +95,8 @@ abstract class ApiKey implements _i1.SerializableModel {
 
   String syncStatus;
 
+  String status;
+
   DateTime createdAt;
 
   DateTime updatedAt;
@@ -109,6 +115,7 @@ abstract class ApiKey implements _i1.SerializableModel {
     String? syncFrequency,
     DateTime? lastSyncAt,
     String? syncStatus,
+    String? status,
     DateTime? createdAt,
     DateTime? updatedAt,
   });
@@ -127,6 +134,7 @@ abstract class ApiKey implements _i1.SerializableModel {
       'syncFrequency': syncFrequency,
       if (lastSyncAt != null) 'lastSyncAt': lastSyncAt?.toJson(),
       'syncStatus': syncStatus,
+      'status': status,
       'createdAt': createdAt.toJson(),
       'updatedAt': updatedAt.toJson(),
     };
@@ -152,6 +160,7 @@ class _ApiKeyImpl extends ApiKey {
     String? syncFrequency,
     DateTime? lastSyncAt,
     String? syncStatus,
+    String? status,
     required DateTime createdAt,
     required DateTime updatedAt,
   }) : super._(
@@ -165,6 +174,7 @@ class _ApiKeyImpl extends ApiKey {
          syncFrequency: syncFrequency,
          lastSyncAt: lastSyncAt,
          syncStatus: syncStatus,
+         status: status,
          createdAt: createdAt,
          updatedAt: updatedAt,
        );
@@ -184,6 +194,7 @@ class _ApiKeyImpl extends ApiKey {
     String? syncFrequency,
     Object? lastSyncAt = _Undefined,
     String? syncStatus,
+    String? status,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
@@ -202,6 +213,7 @@ class _ApiKeyImpl extends ApiKey {
       syncFrequency: syncFrequency ?? this.syncFrequency,
       lastSyncAt: lastSyncAt is DateTime? ? lastSyncAt : this.lastSyncAt,
       syncStatus: syncStatus ?? this.syncStatus,
+      status: status ?? this.status,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );

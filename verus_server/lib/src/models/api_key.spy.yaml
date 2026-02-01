@@ -2,15 +2,36 @@ class: ApiKey
 table: api_keys
 fields:
   id: int?
+
+  # ===========================
+  # Relaciones (FKs)
+  # ===========================
   userId: int # FK a User
+
+  # ===========================
+  # Datos de la API key
+  # ===========================
   exchangeName: String # 'binance', 'bybit', 'bitget'
   apiKeyEncrypted: String
   apiSecretEncrypted: String?
   passphraseEncrypted: String?
+
+  # ===========================
+  # Configuración de sincronización
+  # ===========================
   autoSyncEnabled: bool, default=true
   syncFrequency: String, default='daily'
   lastSyncAt: DateTime?
   syncStatus: String, default='idle'
+
+  # ===========================
+  # Estado de la API key
+  # ===========================
+  status: String, default='active' # 'active', 'revoked'
+
+  # ===========================
+  # Metadata
+  # ===========================
   createdAt: DateTime
   updatedAt: DateTime
 

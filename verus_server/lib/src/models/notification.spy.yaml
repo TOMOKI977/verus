@@ -1,0 +1,31 @@
+class: Notification
+table: notifications
+fields:
+  id: int?
+
+  # ===========================
+  # Relaciones
+  # ===========================
+  userId: int            # FK a User
+
+  # ===========================
+  # Contenido
+  # ===========================
+  title: String          # título breve
+  message: String        # contenido de la notificación
+  type: String, default='info' # 'info', 'warning', 'payment', etc.
+
+  # ===========================
+  # Estado
+  # ===========================
+  read: bool, default=false
+
+  # ===========================
+  # Metadata
+  # ===========================
+  createdAt: DateTime
+  updatedAt: DateTime
+
+indexes:
+  notification_user_idx:
+    fields: userId, createdAt

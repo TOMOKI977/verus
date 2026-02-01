@@ -2,6 +2,10 @@ class: User
 table: users
 fields:
   id: int?
+
+  # ===========================
+  # Datos personales y cuenta
+  # ===========================
   email: String
   passwordHash: String
   firstName: String
@@ -9,18 +13,41 @@ fields:
   country: String # Código ISO
   accountType: String, default='natural' # 'natural', 'juridico'
   role: String, default='user' # 'admin', 'user'
+  emailVerified: bool, default=false
+  onboardingCompleted: bool, default=false
+  activeSubscriptionId: int?
+
+  # ===========================
+  # Seguridad y autenticación
+  # ===========================
+  totpSecret: String?
+  totpEnabled: bool, default=false
+  lastLoginAt: DateTime?
+
+  # ===========================
+  # Datos regulatorios (PSAV)
+  # ===========================
   hasPsav: bool, default=false
   psavExpiresAt: DateTime?
-  preferredCurrencies: String # JSON array
+
+  # ===========================
+  # Preferencias del usuario
+  # ===========================
+  preferredCurrencies: String? # JSON array: ['BOB','USD']
   primaryCurrency: String, default='BOB'
   timezone: String, default='America/La_Paz'
   language: String, default='es'
-  totpSecret: String?
-  totpEnabled: bool, default=false
-  onboardingCompleted: bool, default=false
-  activeSubscriptionId: int?
-  emailVerified: bool, default=false
-  lastLoginAt: DateTime?
+
+  # ===========================
+  # JWT / Sesión
+  # ===========================
+  jwtIssuedAt: DateTime?
+  jwtExpiresAt: DateTime?
+  refreshToken: String?
+
+  # ===========================
+  # Metadata
+  # ===========================
   createdAt: DateTime
   updatedAt: DateTime
 

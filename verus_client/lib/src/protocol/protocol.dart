@@ -17,22 +17,31 @@ import 'bank_account.dart' as _i4;
 import 'country_config.dart' as _i5;
 import 'email_verification.dart' as _i6;
 import 'greetings/greeting.dart' as _i7;
-import 'payment.dart' as _i8;
-import 'psav_declaration.dart' as _i9;
-import 'subscription.dart' as _i10;
-import 'sync_job.dart' as _i11;
-import 'transaction.dart' as _i12;
-import 'user.dart' as _i13;
+import 'notification.dart' as _i8;
+import 'payment.dart' as _i9;
+import 'psav_declaration.dart' as _i10;
+import 'subscription.dart' as _i11;
+import 'sync_job.dart' as _i12;
+import 'transaction.dart' as _i13;
+import 'user.dart' as _i14;
+import 'package:verus_client/src/protocol/user.dart' as _i15;
+import 'package:verus_client/src/protocol/subscription.dart' as _i16;
+import 'package:verus_client/src/protocol/payment.dart' as _i17;
+import 'package:verus_client/src/protocol/audit_log.dart' as _i18;
+import 'package:verus_client/src/protocol/api_key.dart' as _i19;
+import 'package:verus_client/src/protocol/notification.dart' as _i20;
+import 'package:verus_client/src/protocol/transaction.dart' as _i21;
 import 'package:serverpod_auth_idp_client/serverpod_auth_idp_client.dart'
-    as _i14;
+    as _i22;
 import 'package:serverpod_auth_core_client/serverpod_auth_core_client.dart'
-    as _i15;
+    as _i23;
 export 'api_key.dart';
 export 'audit_log.dart';
 export 'bank_account.dart';
 export 'country_config.dart';
 export 'email_verification.dart';
 export 'greetings/greeting.dart';
+export 'notification.dart';
 export 'payment.dart';
 export 'psav_declaration.dart';
 export 'subscription.dart';
@@ -93,23 +102,26 @@ class Protocol extends _i1.SerializationManager {
     if (t == _i7.Greeting) {
       return _i7.Greeting.fromJson(data) as T;
     }
-    if (t == _i8.Payment) {
-      return _i8.Payment.fromJson(data) as T;
+    if (t == _i8.Notification) {
+      return _i8.Notification.fromJson(data) as T;
     }
-    if (t == _i9.PsavDeclaration) {
-      return _i9.PsavDeclaration.fromJson(data) as T;
+    if (t == _i9.Payment) {
+      return _i9.Payment.fromJson(data) as T;
     }
-    if (t == _i10.Subscription) {
-      return _i10.Subscription.fromJson(data) as T;
+    if (t == _i10.PsavDeclaration) {
+      return _i10.PsavDeclaration.fromJson(data) as T;
     }
-    if (t == _i11.SyncJob) {
-      return _i11.SyncJob.fromJson(data) as T;
+    if (t == _i11.Subscription) {
+      return _i11.Subscription.fromJson(data) as T;
     }
-    if (t == _i12.Trans) {
-      return _i12.Trans.fromJson(data) as T;
+    if (t == _i12.SyncJob) {
+      return _i12.SyncJob.fromJson(data) as T;
     }
-    if (t == _i13.User) {
-      return _i13.User.fromJson(data) as T;
+    if (t == _i13.Trans) {
+      return _i13.Trans.fromJson(data) as T;
+    }
+    if (t == _i14.User) {
+      return _i14.User.fromJson(data) as T;
     }
     if (t == _i1.getType<_i2.ApiKey?>()) {
       return (data != null ? _i2.ApiKey.fromJson(data) : null) as T;
@@ -129,29 +141,69 @@ class Protocol extends _i1.SerializationManager {
     if (t == _i1.getType<_i7.Greeting?>()) {
       return (data != null ? _i7.Greeting.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i8.Payment?>()) {
-      return (data != null ? _i8.Payment.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i8.Notification?>()) {
+      return (data != null ? _i8.Notification.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i9.PsavDeclaration?>()) {
-      return (data != null ? _i9.PsavDeclaration.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i9.Payment?>()) {
+      return (data != null ? _i9.Payment.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i10.Subscription?>()) {
-      return (data != null ? _i10.Subscription.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i10.PsavDeclaration?>()) {
+      return (data != null ? _i10.PsavDeclaration.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i11.SyncJob?>()) {
-      return (data != null ? _i11.SyncJob.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i11.Subscription?>()) {
+      return (data != null ? _i11.Subscription.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i12.Trans?>()) {
-      return (data != null ? _i12.Trans.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i12.SyncJob?>()) {
+      return (data != null ? _i12.SyncJob.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i13.User?>()) {
-      return (data != null ? _i13.User.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i13.Trans?>()) {
+      return (data != null ? _i13.Trans.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i14.User?>()) {
+      return (data != null ? _i14.User.fromJson(data) : null) as T;
+    }
+    if (t == List<_i15.User>) {
+      return (data as List).map((e) => deserialize<_i15.User>(e)).toList() as T;
+    }
+    if (t == List<_i16.Subscription>) {
+      return (data as List)
+              .map((e) => deserialize<_i16.Subscription>(e))
+              .toList()
+          as T;
+    }
+    if (t == List<_i17.Payment>) {
+      return (data as List).map((e) => deserialize<_i17.Payment>(e)).toList()
+          as T;
+    }
+    if (t == List<_i18.AuditLog>) {
+      return (data as List).map((e) => deserialize<_i18.AuditLog>(e)).toList()
+          as T;
+    }
+    if (t == List<_i19.ApiKey>) {
+      return (data as List).map((e) => deserialize<_i19.ApiKey>(e)).toList()
+          as T;
+    }
+    if (t == Map<String, dynamic>) {
+      return (data as Map).map(
+            (k, v) => MapEntry(deserialize<String>(k), deserialize<dynamic>(v)),
+          )
+          as T;
+    }
+    if (t == List<_i20.Notification>) {
+      return (data as List)
+              .map((e) => deserialize<_i20.Notification>(e))
+              .toList()
+          as T;
+    }
+    if (t == List<_i21.Trans>) {
+      return (data as List).map((e) => deserialize<_i21.Trans>(e)).toList()
+          as T;
     }
     try {
-      return _i14.Protocol().deserialize<T>(data, t);
+      return _i22.Protocol().deserialize<T>(data, t);
     } on _i1.DeserializationTypeNotFoundException catch (_) {}
     try {
-      return _i15.Protocol().deserialize<T>(data, t);
+      return _i23.Protocol().deserialize<T>(data, t);
     } on _i1.DeserializationTypeNotFoundException catch (_) {}
     return super.deserialize<T>(data, t);
   }
@@ -164,12 +216,13 @@ class Protocol extends _i1.SerializationManager {
       _i5.CountryConfig => 'CountryConfig',
       _i6.EmailVerification => 'EmailVerification',
       _i7.Greeting => 'Greeting',
-      _i8.Payment => 'Payment',
-      _i9.PsavDeclaration => 'PsavDeclaration',
-      _i10.Subscription => 'Subscription',
-      _i11.SyncJob => 'SyncJob',
-      _i12.Trans => 'Trans',
-      _i13.User => 'User',
+      _i8.Notification => 'Notification',
+      _i9.Payment => 'Payment',
+      _i10.PsavDeclaration => 'PsavDeclaration',
+      _i11.Subscription => 'Subscription',
+      _i12.SyncJob => 'SyncJob',
+      _i13.Trans => 'Trans',
+      _i14.User => 'User',
       _ => null,
     };
   }
@@ -196,24 +249,26 @@ class Protocol extends _i1.SerializationManager {
         return 'EmailVerification';
       case _i7.Greeting():
         return 'Greeting';
-      case _i8.Payment():
+      case _i8.Notification():
+        return 'Notification';
+      case _i9.Payment():
         return 'Payment';
-      case _i9.PsavDeclaration():
+      case _i10.PsavDeclaration():
         return 'PsavDeclaration';
-      case _i10.Subscription():
+      case _i11.Subscription():
         return 'Subscription';
-      case _i11.SyncJob():
+      case _i12.SyncJob():
         return 'SyncJob';
-      case _i12.Trans():
+      case _i13.Trans():
         return 'Trans';
-      case _i13.User():
+      case _i14.User():
         return 'User';
     }
-    className = _i14.Protocol().getClassNameForObject(data);
+    className = _i22.Protocol().getClassNameForObject(data);
     if (className != null) {
       return 'serverpod_auth_idp.$className';
     }
-    className = _i15.Protocol().getClassNameForObject(data);
+    className = _i23.Protocol().getClassNameForObject(data);
     if (className != null) {
       return 'serverpod_auth_core.$className';
     }
@@ -244,31 +299,34 @@ class Protocol extends _i1.SerializationManager {
     if (dataClassName == 'Greeting') {
       return deserialize<_i7.Greeting>(data['data']);
     }
+    if (dataClassName == 'Notification') {
+      return deserialize<_i8.Notification>(data['data']);
+    }
     if (dataClassName == 'Payment') {
-      return deserialize<_i8.Payment>(data['data']);
+      return deserialize<_i9.Payment>(data['data']);
     }
     if (dataClassName == 'PsavDeclaration') {
-      return deserialize<_i9.PsavDeclaration>(data['data']);
+      return deserialize<_i10.PsavDeclaration>(data['data']);
     }
     if (dataClassName == 'Subscription') {
-      return deserialize<_i10.Subscription>(data['data']);
+      return deserialize<_i11.Subscription>(data['data']);
     }
     if (dataClassName == 'SyncJob') {
-      return deserialize<_i11.SyncJob>(data['data']);
+      return deserialize<_i12.SyncJob>(data['data']);
     }
     if (dataClassName == 'Trans') {
-      return deserialize<_i12.Trans>(data['data']);
+      return deserialize<_i13.Trans>(data['data']);
     }
     if (dataClassName == 'User') {
-      return deserialize<_i13.User>(data['data']);
+      return deserialize<_i14.User>(data['data']);
     }
     if (dataClassName.startsWith('serverpod_auth_idp.')) {
       data['className'] = dataClassName.substring(19);
-      return _i14.Protocol().deserializeByClassName(data);
+      return _i22.Protocol().deserializeByClassName(data);
     }
     if (dataClassName.startsWith('serverpod_auth_core.')) {
       data['className'] = dataClassName.substring(20);
-      return _i15.Protocol().deserializeByClassName(data);
+      return _i23.Protocol().deserializeByClassName(data);
     }
     return super.deserializeByClassName(data);
   }
@@ -283,10 +341,10 @@ class Protocol extends _i1.SerializationManager {
       return null;
     }
     try {
-      return _i14.Protocol().mapRecordToJson(record);
+      return _i22.Protocol().mapRecordToJson(record);
     } catch (_) {}
     try {
-      return _i15.Protocol().mapRecordToJson(record);
+      return _i23.Protocol().mapRecordToJson(record);
     } catch (_) {}
     throw Exception('Unsupported record type ${record.runtimeType}');
   }

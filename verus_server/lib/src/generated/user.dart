@@ -22,29 +22,32 @@ abstract class User implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
     required this.country,
     String? accountType,
     String? role,
+    bool? emailVerified,
+    bool? onboardingCompleted,
+    this.activeSubscriptionId,
+    this.totpSecret,
+    bool? totpEnabled,
+    this.lastLoginAt,
     bool? hasPsav,
     this.psavExpiresAt,
-    required this.preferredCurrencies,
+    this.preferredCurrencies,
     String? primaryCurrency,
     String? timezone,
     String? language,
-    this.totpSecret,
-    bool? totpEnabled,
-    bool? onboardingCompleted,
-    this.activeSubscriptionId,
-    bool? emailVerified,
-    this.lastLoginAt,
+    this.jwtIssuedAt,
+    this.jwtExpiresAt,
+    this.refreshToken,
     required this.createdAt,
     required this.updatedAt,
   }) : accountType = accountType ?? 'natural',
        role = role ?? 'user',
+       emailVerified = emailVerified ?? false,
+       onboardingCompleted = onboardingCompleted ?? false,
+       totpEnabled = totpEnabled ?? false,
        hasPsav = hasPsav ?? false,
        primaryCurrency = primaryCurrency ?? 'BOB',
        timezone = timezone ?? 'America/La_Paz',
-       language = language ?? 'es',
-       totpEnabled = totpEnabled ?? false,
-       onboardingCompleted = onboardingCompleted ?? false,
-       emailVerified = emailVerified ?? false;
+       language = language ?? 'es';
 
   factory User({
     int? id,
@@ -55,18 +58,21 @@ abstract class User implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
     required String country,
     String? accountType,
     String? role,
+    bool? emailVerified,
+    bool? onboardingCompleted,
+    int? activeSubscriptionId,
+    String? totpSecret,
+    bool? totpEnabled,
+    DateTime? lastLoginAt,
     bool? hasPsav,
     DateTime? psavExpiresAt,
-    required String preferredCurrencies,
+    String? preferredCurrencies,
     String? primaryCurrency,
     String? timezone,
     String? language,
-    String? totpSecret,
-    bool? totpEnabled,
-    bool? onboardingCompleted,
-    int? activeSubscriptionId,
-    bool? emailVerified,
-    DateTime? lastLoginAt,
+    DateTime? jwtIssuedAt,
+    DateTime? jwtExpiresAt,
+    String? refreshToken,
     required DateTime createdAt,
     required DateTime updatedAt,
   }) = _UserImpl;
@@ -81,26 +87,37 @@ abstract class User implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
       country: jsonSerialization['country'] as String,
       accountType: jsonSerialization['accountType'] as String?,
       role: jsonSerialization['role'] as String?,
+      emailVerified: jsonSerialization['emailVerified'] as bool?,
+      onboardingCompleted: jsonSerialization['onboardingCompleted'] as bool?,
+      activeSubscriptionId: jsonSerialization['activeSubscriptionId'] as int?,
+      totpSecret: jsonSerialization['totpSecret'] as String?,
+      totpEnabled: jsonSerialization['totpEnabled'] as bool?,
+      lastLoginAt: jsonSerialization['lastLoginAt'] == null
+          ? null
+          : _i1.DateTimeJsonExtension.fromJson(
+              jsonSerialization['lastLoginAt'],
+            ),
       hasPsav: jsonSerialization['hasPsav'] as bool?,
       psavExpiresAt: jsonSerialization['psavExpiresAt'] == null
           ? null
           : _i1.DateTimeJsonExtension.fromJson(
               jsonSerialization['psavExpiresAt'],
             ),
-      preferredCurrencies: jsonSerialization['preferredCurrencies'] as String,
+      preferredCurrencies: jsonSerialization['preferredCurrencies'] as String?,
       primaryCurrency: jsonSerialization['primaryCurrency'] as String?,
       timezone: jsonSerialization['timezone'] as String?,
       language: jsonSerialization['language'] as String?,
-      totpSecret: jsonSerialization['totpSecret'] as String?,
-      totpEnabled: jsonSerialization['totpEnabled'] as bool?,
-      onboardingCompleted: jsonSerialization['onboardingCompleted'] as bool?,
-      activeSubscriptionId: jsonSerialization['activeSubscriptionId'] as int?,
-      emailVerified: jsonSerialization['emailVerified'] as bool?,
-      lastLoginAt: jsonSerialization['lastLoginAt'] == null
+      jwtIssuedAt: jsonSerialization['jwtIssuedAt'] == null
           ? null
           : _i1.DateTimeJsonExtension.fromJson(
-              jsonSerialization['lastLoginAt'],
+              jsonSerialization['jwtIssuedAt'],
             ),
+      jwtExpiresAt: jsonSerialization['jwtExpiresAt'] == null
+          ? null
+          : _i1.DateTimeJsonExtension.fromJson(
+              jsonSerialization['jwtExpiresAt'],
+            ),
+      refreshToken: jsonSerialization['refreshToken'] as String?,
       createdAt: _i1.DateTimeJsonExtension.fromJson(
         jsonSerialization['createdAt'],
       ),
@@ -131,11 +148,23 @@ abstract class User implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
 
   String role;
 
+  bool emailVerified;
+
+  bool onboardingCompleted;
+
+  int? activeSubscriptionId;
+
+  String? totpSecret;
+
+  bool totpEnabled;
+
+  DateTime? lastLoginAt;
+
   bool hasPsav;
 
   DateTime? psavExpiresAt;
 
-  String preferredCurrencies;
+  String? preferredCurrencies;
 
   String primaryCurrency;
 
@@ -143,17 +172,11 @@ abstract class User implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
 
   String language;
 
-  String? totpSecret;
+  DateTime? jwtIssuedAt;
 
-  bool totpEnabled;
+  DateTime? jwtExpiresAt;
 
-  bool onboardingCompleted;
-
-  int? activeSubscriptionId;
-
-  bool emailVerified;
-
-  DateTime? lastLoginAt;
+  String? refreshToken;
 
   DateTime createdAt;
 
@@ -174,18 +197,21 @@ abstract class User implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
     String? country,
     String? accountType,
     String? role,
+    bool? emailVerified,
+    bool? onboardingCompleted,
+    int? activeSubscriptionId,
+    String? totpSecret,
+    bool? totpEnabled,
+    DateTime? lastLoginAt,
     bool? hasPsav,
     DateTime? psavExpiresAt,
     String? preferredCurrencies,
     String? primaryCurrency,
     String? timezone,
     String? language,
-    String? totpSecret,
-    bool? totpEnabled,
-    bool? onboardingCompleted,
-    int? activeSubscriptionId,
-    bool? emailVerified,
-    DateTime? lastLoginAt,
+    DateTime? jwtIssuedAt,
+    DateTime? jwtExpiresAt,
+    String? refreshToken,
     DateTime? createdAt,
     DateTime? updatedAt,
   });
@@ -201,19 +227,23 @@ abstract class User implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
       'country': country,
       'accountType': accountType,
       'role': role,
-      'hasPsav': hasPsav,
-      if (psavExpiresAt != null) 'psavExpiresAt': psavExpiresAt?.toJson(),
-      'preferredCurrencies': preferredCurrencies,
-      'primaryCurrency': primaryCurrency,
-      'timezone': timezone,
-      'language': language,
-      if (totpSecret != null) 'totpSecret': totpSecret,
-      'totpEnabled': totpEnabled,
+      'emailVerified': emailVerified,
       'onboardingCompleted': onboardingCompleted,
       if (activeSubscriptionId != null)
         'activeSubscriptionId': activeSubscriptionId,
-      'emailVerified': emailVerified,
+      if (totpSecret != null) 'totpSecret': totpSecret,
+      'totpEnabled': totpEnabled,
       if (lastLoginAt != null) 'lastLoginAt': lastLoginAt?.toJson(),
+      'hasPsav': hasPsav,
+      if (psavExpiresAt != null) 'psavExpiresAt': psavExpiresAt?.toJson(),
+      if (preferredCurrencies != null)
+        'preferredCurrencies': preferredCurrencies,
+      'primaryCurrency': primaryCurrency,
+      'timezone': timezone,
+      'language': language,
+      if (jwtIssuedAt != null) 'jwtIssuedAt': jwtIssuedAt?.toJson(),
+      if (jwtExpiresAt != null) 'jwtExpiresAt': jwtExpiresAt?.toJson(),
+      if (refreshToken != null) 'refreshToken': refreshToken,
       'createdAt': createdAt.toJson(),
       'updatedAt': updatedAt.toJson(),
     };
@@ -231,19 +261,23 @@ abstract class User implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
       'country': country,
       'accountType': accountType,
       'role': role,
-      'hasPsav': hasPsav,
-      if (psavExpiresAt != null) 'psavExpiresAt': psavExpiresAt?.toJson(),
-      'preferredCurrencies': preferredCurrencies,
-      'primaryCurrency': primaryCurrency,
-      'timezone': timezone,
-      'language': language,
-      if (totpSecret != null) 'totpSecret': totpSecret,
-      'totpEnabled': totpEnabled,
+      'emailVerified': emailVerified,
       'onboardingCompleted': onboardingCompleted,
       if (activeSubscriptionId != null)
         'activeSubscriptionId': activeSubscriptionId,
-      'emailVerified': emailVerified,
+      if (totpSecret != null) 'totpSecret': totpSecret,
+      'totpEnabled': totpEnabled,
       if (lastLoginAt != null) 'lastLoginAt': lastLoginAt?.toJson(),
+      'hasPsav': hasPsav,
+      if (psavExpiresAt != null) 'psavExpiresAt': psavExpiresAt?.toJson(),
+      if (preferredCurrencies != null)
+        'preferredCurrencies': preferredCurrencies,
+      'primaryCurrency': primaryCurrency,
+      'timezone': timezone,
+      'language': language,
+      if (jwtIssuedAt != null) 'jwtIssuedAt': jwtIssuedAt?.toJson(),
+      if (jwtExpiresAt != null) 'jwtExpiresAt': jwtExpiresAt?.toJson(),
+      if (refreshToken != null) 'refreshToken': refreshToken,
       'createdAt': createdAt.toJson(),
       'updatedAt': updatedAt.toJson(),
     };
@@ -291,18 +325,21 @@ class _UserImpl extends User {
     required String country,
     String? accountType,
     String? role,
+    bool? emailVerified,
+    bool? onboardingCompleted,
+    int? activeSubscriptionId,
+    String? totpSecret,
+    bool? totpEnabled,
+    DateTime? lastLoginAt,
     bool? hasPsav,
     DateTime? psavExpiresAt,
-    required String preferredCurrencies,
+    String? preferredCurrencies,
     String? primaryCurrency,
     String? timezone,
     String? language,
-    String? totpSecret,
-    bool? totpEnabled,
-    bool? onboardingCompleted,
-    int? activeSubscriptionId,
-    bool? emailVerified,
-    DateTime? lastLoginAt,
+    DateTime? jwtIssuedAt,
+    DateTime? jwtExpiresAt,
+    String? refreshToken,
     required DateTime createdAt,
     required DateTime updatedAt,
   }) : super._(
@@ -314,18 +351,21 @@ class _UserImpl extends User {
          country: country,
          accountType: accountType,
          role: role,
+         emailVerified: emailVerified,
+         onboardingCompleted: onboardingCompleted,
+         activeSubscriptionId: activeSubscriptionId,
+         totpSecret: totpSecret,
+         totpEnabled: totpEnabled,
+         lastLoginAt: lastLoginAt,
          hasPsav: hasPsav,
          psavExpiresAt: psavExpiresAt,
          preferredCurrencies: preferredCurrencies,
          primaryCurrency: primaryCurrency,
          timezone: timezone,
          language: language,
-         totpSecret: totpSecret,
-         totpEnabled: totpEnabled,
-         onboardingCompleted: onboardingCompleted,
-         activeSubscriptionId: activeSubscriptionId,
-         emailVerified: emailVerified,
-         lastLoginAt: lastLoginAt,
+         jwtIssuedAt: jwtIssuedAt,
+         jwtExpiresAt: jwtExpiresAt,
+         refreshToken: refreshToken,
          createdAt: createdAt,
          updatedAt: updatedAt,
        );
@@ -343,18 +383,21 @@ class _UserImpl extends User {
     String? country,
     String? accountType,
     String? role,
+    bool? emailVerified,
+    bool? onboardingCompleted,
+    Object? activeSubscriptionId = _Undefined,
+    Object? totpSecret = _Undefined,
+    bool? totpEnabled,
+    Object? lastLoginAt = _Undefined,
     bool? hasPsav,
     Object? psavExpiresAt = _Undefined,
-    String? preferredCurrencies,
+    Object? preferredCurrencies = _Undefined,
     String? primaryCurrency,
     String? timezone,
     String? language,
-    Object? totpSecret = _Undefined,
-    bool? totpEnabled,
-    bool? onboardingCompleted,
-    Object? activeSubscriptionId = _Undefined,
-    bool? emailVerified,
-    Object? lastLoginAt = _Undefined,
+    Object? jwtIssuedAt = _Undefined,
+    Object? jwtExpiresAt = _Undefined,
+    Object? refreshToken = _Undefined,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
@@ -367,22 +410,29 @@ class _UserImpl extends User {
       country: country ?? this.country,
       accountType: accountType ?? this.accountType,
       role: role ?? this.role,
-      hasPsav: hasPsav ?? this.hasPsav,
-      psavExpiresAt: psavExpiresAt is DateTime?
-          ? psavExpiresAt
-          : this.psavExpiresAt,
-      preferredCurrencies: preferredCurrencies ?? this.preferredCurrencies,
-      primaryCurrency: primaryCurrency ?? this.primaryCurrency,
-      timezone: timezone ?? this.timezone,
-      language: language ?? this.language,
-      totpSecret: totpSecret is String? ? totpSecret : this.totpSecret,
-      totpEnabled: totpEnabled ?? this.totpEnabled,
+      emailVerified: emailVerified ?? this.emailVerified,
       onboardingCompleted: onboardingCompleted ?? this.onboardingCompleted,
       activeSubscriptionId: activeSubscriptionId is int?
           ? activeSubscriptionId
           : this.activeSubscriptionId,
-      emailVerified: emailVerified ?? this.emailVerified,
+      totpSecret: totpSecret is String? ? totpSecret : this.totpSecret,
+      totpEnabled: totpEnabled ?? this.totpEnabled,
       lastLoginAt: lastLoginAt is DateTime? ? lastLoginAt : this.lastLoginAt,
+      hasPsav: hasPsav ?? this.hasPsav,
+      psavExpiresAt: psavExpiresAt is DateTime?
+          ? psavExpiresAt
+          : this.psavExpiresAt,
+      preferredCurrencies: preferredCurrencies is String?
+          ? preferredCurrencies
+          : this.preferredCurrencies,
+      primaryCurrency: primaryCurrency ?? this.primaryCurrency,
+      timezone: timezone ?? this.timezone,
+      language: language ?? this.language,
+      jwtIssuedAt: jwtIssuedAt is DateTime? ? jwtIssuedAt : this.jwtIssuedAt,
+      jwtExpiresAt: jwtExpiresAt is DateTime?
+          ? jwtExpiresAt
+          : this.jwtExpiresAt,
+      refreshToken: refreshToken is String? ? refreshToken : this.refreshToken,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
@@ -427,6 +477,38 @@ class UserUpdateTable extends _i1.UpdateTable<UserTable> {
     value,
   );
 
+  _i1.ColumnValue<bool, bool> emailVerified(bool value) => _i1.ColumnValue(
+    table.emailVerified,
+    value,
+  );
+
+  _i1.ColumnValue<bool, bool> onboardingCompleted(bool value) =>
+      _i1.ColumnValue(
+        table.onboardingCompleted,
+        value,
+      );
+
+  _i1.ColumnValue<int, int> activeSubscriptionId(int? value) => _i1.ColumnValue(
+    table.activeSubscriptionId,
+    value,
+  );
+
+  _i1.ColumnValue<String, String> totpSecret(String? value) => _i1.ColumnValue(
+    table.totpSecret,
+    value,
+  );
+
+  _i1.ColumnValue<bool, bool> totpEnabled(bool value) => _i1.ColumnValue(
+    table.totpEnabled,
+    value,
+  );
+
+  _i1.ColumnValue<DateTime, DateTime> lastLoginAt(DateTime? value) =>
+      _i1.ColumnValue(
+        table.lastLoginAt,
+        value,
+      );
+
   _i1.ColumnValue<bool, bool> hasPsav(bool value) => _i1.ColumnValue(
     table.hasPsav,
     value,
@@ -438,7 +520,7 @@ class UserUpdateTable extends _i1.UpdateTable<UserTable> {
         value,
       );
 
-  _i1.ColumnValue<String, String> preferredCurrencies(String value) =>
+  _i1.ColumnValue<String, String> preferredCurrencies(String? value) =>
       _i1.ColumnValue(
         table.preferredCurrencies,
         value,
@@ -460,35 +542,21 @@ class UserUpdateTable extends _i1.UpdateTable<UserTable> {
     value,
   );
 
-  _i1.ColumnValue<String, String> totpSecret(String? value) => _i1.ColumnValue(
-    table.totpSecret,
-    value,
-  );
-
-  _i1.ColumnValue<bool, bool> totpEnabled(bool value) => _i1.ColumnValue(
-    table.totpEnabled,
-    value,
-  );
-
-  _i1.ColumnValue<bool, bool> onboardingCompleted(bool value) =>
+  _i1.ColumnValue<DateTime, DateTime> jwtIssuedAt(DateTime? value) =>
       _i1.ColumnValue(
-        table.onboardingCompleted,
+        table.jwtIssuedAt,
         value,
       );
 
-  _i1.ColumnValue<int, int> activeSubscriptionId(int? value) => _i1.ColumnValue(
-    table.activeSubscriptionId,
-    value,
-  );
-
-  _i1.ColumnValue<bool, bool> emailVerified(bool value) => _i1.ColumnValue(
-    table.emailVerified,
-    value,
-  );
-
-  _i1.ColumnValue<DateTime, DateTime> lastLoginAt(DateTime? value) =>
+  _i1.ColumnValue<DateTime, DateTime> jwtExpiresAt(DateTime? value) =>
       _i1.ColumnValue(
-        table.lastLoginAt,
+        table.jwtExpiresAt,
+        value,
+      );
+
+  _i1.ColumnValue<String, String> refreshToken(String? value) =>
+      _i1.ColumnValue(
+        table.refreshToken,
         value,
       );
 
@@ -538,6 +606,33 @@ class UserTable extends _i1.Table<int?> {
       this,
       hasDefault: true,
     );
+    emailVerified = _i1.ColumnBool(
+      'emailVerified',
+      this,
+      hasDefault: true,
+    );
+    onboardingCompleted = _i1.ColumnBool(
+      'onboardingCompleted',
+      this,
+      hasDefault: true,
+    );
+    activeSubscriptionId = _i1.ColumnInt(
+      'activeSubscriptionId',
+      this,
+    );
+    totpSecret = _i1.ColumnString(
+      'totpSecret',
+      this,
+    );
+    totpEnabled = _i1.ColumnBool(
+      'totpEnabled',
+      this,
+      hasDefault: true,
+    );
+    lastLoginAt = _i1.ColumnDateTime(
+      'lastLoginAt',
+      this,
+    );
     hasPsav = _i1.ColumnBool(
       'hasPsav',
       this,
@@ -566,31 +661,16 @@ class UserTable extends _i1.Table<int?> {
       this,
       hasDefault: true,
     );
-    totpSecret = _i1.ColumnString(
-      'totpSecret',
+    jwtIssuedAt = _i1.ColumnDateTime(
+      'jwtIssuedAt',
       this,
     );
-    totpEnabled = _i1.ColumnBool(
-      'totpEnabled',
-      this,
-      hasDefault: true,
-    );
-    onboardingCompleted = _i1.ColumnBool(
-      'onboardingCompleted',
-      this,
-      hasDefault: true,
-    );
-    activeSubscriptionId = _i1.ColumnInt(
-      'activeSubscriptionId',
+    jwtExpiresAt = _i1.ColumnDateTime(
+      'jwtExpiresAt',
       this,
     );
-    emailVerified = _i1.ColumnBool(
-      'emailVerified',
-      this,
-      hasDefault: true,
-    );
-    lastLoginAt = _i1.ColumnDateTime(
-      'lastLoginAt',
+    refreshToken = _i1.ColumnString(
+      'refreshToken',
       this,
     );
     createdAt = _i1.ColumnDateTime(
@@ -619,6 +699,18 @@ class UserTable extends _i1.Table<int?> {
 
   late final _i1.ColumnString role;
 
+  late final _i1.ColumnBool emailVerified;
+
+  late final _i1.ColumnBool onboardingCompleted;
+
+  late final _i1.ColumnInt activeSubscriptionId;
+
+  late final _i1.ColumnString totpSecret;
+
+  late final _i1.ColumnBool totpEnabled;
+
+  late final _i1.ColumnDateTime lastLoginAt;
+
   late final _i1.ColumnBool hasPsav;
 
   late final _i1.ColumnDateTime psavExpiresAt;
@@ -631,17 +723,11 @@ class UserTable extends _i1.Table<int?> {
 
   late final _i1.ColumnString language;
 
-  late final _i1.ColumnString totpSecret;
+  late final _i1.ColumnDateTime jwtIssuedAt;
 
-  late final _i1.ColumnBool totpEnabled;
+  late final _i1.ColumnDateTime jwtExpiresAt;
 
-  late final _i1.ColumnBool onboardingCompleted;
-
-  late final _i1.ColumnInt activeSubscriptionId;
-
-  late final _i1.ColumnBool emailVerified;
-
-  late final _i1.ColumnDateTime lastLoginAt;
+  late final _i1.ColumnString refreshToken;
 
   late final _i1.ColumnDateTime createdAt;
 
@@ -657,18 +743,21 @@ class UserTable extends _i1.Table<int?> {
     country,
     accountType,
     role,
+    emailVerified,
+    onboardingCompleted,
+    activeSubscriptionId,
+    totpSecret,
+    totpEnabled,
+    lastLoginAt,
     hasPsav,
     psavExpiresAt,
     preferredCurrencies,
     primaryCurrency,
     timezone,
     language,
-    totpSecret,
-    totpEnabled,
-    onboardingCompleted,
-    activeSubscriptionId,
-    emailVerified,
-    lastLoginAt,
+    jwtIssuedAt,
+    jwtExpiresAt,
+    refreshToken,
     createdAt,
     updatedAt,
   ];

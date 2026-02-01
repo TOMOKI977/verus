@@ -1,12 +1,40 @@
-emailIdp:
+admin:
+  - listUsers:
+  - listSubscriptions:
+  - listPayments:
+  - listAuditLogs:
+  - changeUserRole:
+apiKey:
+  - addApiKey:
+  - listApiKeys:
+  - revokeApiKey:
+auditLog:
+  - listLogs:
+  - getLog:
+auth:
+  - register:
   - login:
-  - startRegistration:
-  - verifyRegistrationCode:
-  - finishRegistration:
-  - startPasswordReset:
-  - verifyPasswordResetCode:
-  - finishPasswordReset:
-jwtRefresh:
-  - refreshAccessToken:
+notification:
+  - listNotifications:
+  - createNotification:
+  - markAsRead:
+  - markAllAsRead:
+payment:
+  - createPayment:
+  - verifyPayment:
+  - listPayments:
+subscription:
+  - listSubscriptions:
+  - subscribe:
+  - cancelSubscription:
+  - upgradeSubscription:
+  - renewSubscription:
+transaction:
+  - listTransactions:
+  - getTransaction:
+user:
+  - getProfile:
+  - updateProfile:
+  - changePassword:
 greeting:
   - hello:

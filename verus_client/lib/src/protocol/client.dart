@@ -10,241 +10,453 @@
 // ignore_for_file: invalid_use_of_internal_member
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:serverpod_client/serverpod_client.dart' as _i1;
+import 'dart:async' as _i2;
+import 'package:verus_client/src/protocol/user.dart' as _i3;
+import 'package:verus_client/src/protocol/subscription.dart' as _i4;
+import 'package:verus_client/src/protocol/payment.dart' as _i5;
+import 'package:verus_client/src/protocol/audit_log.dart' as _i6;
+import 'package:verus_client/src/protocol/api_key.dart' as _i7;
+import 'package:verus_client/src/protocol/notification.dart' as _i8;
+import 'package:verus_client/src/protocol/transaction.dart' as _i9;
+import 'package:verus_client/src/protocol/greetings/greeting.dart' as _i10;
 import 'package:serverpod_auth_idp_client/serverpod_auth_idp_client.dart'
-    as _i1;
-import 'package:serverpod_client/serverpod_client.dart' as _i2;
-import 'dart:async' as _i3;
+    as _i11;
 import 'package:serverpod_auth_core_client/serverpod_auth_core_client.dart'
-    as _i4;
-import 'package:verus_client/src/protocol/greetings/greeting.dart' as _i5;
-import 'protocol.dart' as _i6;
+    as _i12;
+import 'protocol.dart' as _i13;
 
-/// By extending [EmailIdpBaseEndpoint], the email identity provider endpoints
-/// are made available on the server and enable the corresponding sign-in widget
-/// on the client.
 /// {@category Endpoint}
-class EndpointEmailIdp extends _i1.EndpointEmailIdpBase {
-  EndpointEmailIdp(_i2.EndpointCaller caller) : super(caller);
+class EndpointAdmin extends _i1.EndpointRef {
+  EndpointAdmin(_i1.EndpointCaller caller) : super(caller);
 
   @override
-  String get name => 'emailIdp';
+  String get name => 'admin';
 
-  /// Logs in the user and returns a new session.
-  ///
-  /// Throws an [EmailAccountLoginException] in case of errors, with reason:
-  /// - [EmailAccountLoginExceptionReason.invalidCredentials] if the email or
-  ///   password is incorrect.
-  /// - [EmailAccountLoginExceptionReason.tooManyAttempts] if there have been
-  ///   too many failed login attempts.
-  ///
-  /// Throws an [AuthUserBlockedException] if the auth user is blocked.
+  _i2.Future<List<_i3.User>> listUsers(String token) =>
+      caller.callServerEndpoint<List<_i3.User>>(
+        'admin',
+        'listUsers',
+        {'token': token},
+      );
+
+  _i2.Future<List<_i4.Subscription>> listSubscriptions(String token) =>
+      caller.callServerEndpoint<List<_i4.Subscription>>(
+        'admin',
+        'listSubscriptions',
+        {'token': token},
+      );
+
+  _i2.Future<List<_i5.Payment>> listPayments(String token) =>
+      caller.callServerEndpoint<List<_i5.Payment>>(
+        'admin',
+        'listPayments',
+        {'token': token},
+      );
+
+  _i2.Future<List<_i6.AuditLog>> listAuditLogs(String token) =>
+      caller.callServerEndpoint<List<_i6.AuditLog>>(
+        'admin',
+        'listAuditLogs',
+        {'token': token},
+      );
+
+  _i2.Future<_i3.User> changeUserRole(
+    String token,
+    int userId,
+    String newRole,
+  ) => caller.callServerEndpoint<_i3.User>(
+    'admin',
+    'changeUserRole',
+    {
+      'token': token,
+      'userId': userId,
+      'newRole': newRole,
+    },
+  );
+}
+
+/// {@category Endpoint}
+class EndpointApiKey extends _i1.EndpointRef {
+  EndpointApiKey(_i1.EndpointCaller caller) : super(caller);
+
   @override
-  _i3.Future<_i4.AuthSuccess> login({
-    required String email,
-    required String password,
-  }) => caller.callServerEndpoint<_i4.AuthSuccess>(
-    'emailIdp',
+  String get name => 'apiKey';
+
+  _i2.Future<_i7.ApiKey> addApiKey(
+    String token,
+    String exchangeName,
+    String apiKey,
+    String? apiSecret,
+    String? passphrase,
+  ) => caller.callServerEndpoint<_i7.ApiKey>(
+    'apiKey',
+    'addApiKey',
+    {
+      'token': token,
+      'exchangeName': exchangeName,
+      'apiKey': apiKey,
+      'apiSecret': apiSecret,
+      'passphrase': passphrase,
+    },
+  );
+
+  _i2.Future<List<_i7.ApiKey>> listApiKeys(String token) =>
+      caller.callServerEndpoint<List<_i7.ApiKey>>(
+        'apiKey',
+        'listApiKeys',
+        {'token': token},
+      );
+
+  _i2.Future<bool> revokeApiKey(
+    String token,
+    int apiKeyId,
+  ) => caller.callServerEndpoint<bool>(
+    'apiKey',
+    'revokeApiKey',
+    {
+      'token': token,
+      'apiKeyId': apiKeyId,
+    },
+  );
+}
+
+/// {@category Endpoint}
+class EndpointAuditLog extends _i1.EndpointRef {
+  EndpointAuditLog(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'auditLog';
+
+  _i2.Future<List<_i6.AuditLog>> listLogs(
+    String token, {
+    String? action,
+    DateTime? startDate,
+    DateTime? endDate,
+  }) => caller.callServerEndpoint<List<_i6.AuditLog>>(
+    'auditLog',
+    'listLogs',
+    {
+      'token': token,
+      'action': action,
+      'startDate': startDate,
+      'endDate': endDate,
+    },
+  );
+
+  _i2.Future<_i6.AuditLog?> getLog(
+    String token,
+    int logId,
+  ) => caller.callServerEndpoint<_i6.AuditLog?>(
+    'auditLog',
+    'getLog',
+    {
+      'token': token,
+      'logId': logId,
+    },
+  );
+}
+
+/// {@category Endpoint}
+class EndpointAuth extends _i1.EndpointRef {
+  EndpointAuth(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'auth';
+
+  _i2.Future<Map<String, dynamic>> register(
+    String email,
+    String password,
+    String firstName,
+    String lastName,
+    String country,
+  ) => caller.callServerEndpoint<Map<String, dynamic>>(
+    'auth',
+    'register',
+    {
+      'email': email,
+      'password': password,
+      'firstName': firstName,
+      'lastName': lastName,
+      'country': country,
+    },
+  );
+
+  _i2.Future<Map<String, dynamic>> login(
+    String email,
+    String password,
+  ) => caller.callServerEndpoint<Map<String, dynamic>>(
+    'auth',
     'login',
     {
       'email': email,
       'password': password,
     },
   );
+}
 
-  /// Starts the registration for a new user account with an email-based login
-  /// associated to it.
-  ///
-  /// Upon successful completion of this method, an email will have been
-  /// sent to [email] with a verification link, which the user must open to
-  /// complete the registration.
-  ///
-  /// Always returns a account request ID, which can be used to complete the
-  /// registration. If the email is already registered, the returned ID will not
-  /// be valid.
+/// {@category Endpoint}
+class EndpointNotification extends _i1.EndpointRef {
+  EndpointNotification(_i1.EndpointCaller caller) : super(caller);
+
   @override
-  _i3.Future<_i2.UuidValue> startRegistration({required String email}) =>
-      caller.callServerEndpoint<_i2.UuidValue>(
-        'emailIdp',
-        'startRegistration',
-        {'email': email},
+  String get name => 'notification';
+
+  _i2.Future<List<_i8.Notification>> listNotifications(String token) =>
+      caller.callServerEndpoint<List<_i8.Notification>>(
+        'notification',
+        'listNotifications',
+        {'token': token},
       );
 
-  /// Verifies an account request code and returns a token
-  /// that can be used to complete the account creation.
-  ///
-  /// Throws an [EmailAccountRequestException] in case of errors, with reason:
-  /// - [EmailAccountRequestExceptionReason.expired] if the account request has
-  ///   already expired.
-  /// - [EmailAccountRequestExceptionReason.policyViolation] if the password
-  ///   does not comply with the password policy.
-  /// - [EmailAccountRequestExceptionReason.invalid] if no request exists
-  ///   for the given [accountRequestId] or [verificationCode] is invalid.
-  @override
-  _i3.Future<String> verifyRegistrationCode({
-    required _i2.UuidValue accountRequestId,
-    required String verificationCode,
-  }) => caller.callServerEndpoint<String>(
-    'emailIdp',
-    'verifyRegistrationCode',
+  _i2.Future<_i8.Notification> createNotification(
+    String token,
+    String title,
+    String message, {
+    String? type,
+  }) => caller.callServerEndpoint<_i8.Notification>(
+    'notification',
+    'createNotification',
     {
-      'accountRequestId': accountRequestId,
-      'verificationCode': verificationCode,
+      'token': token,
+      'title': title,
+      'message': message,
+      'type': type,
     },
   );
 
-  /// Completes a new account registration, creating a new auth user with a
-  /// profile and attaching the given email account to it.
-  ///
-  /// Throws an [EmailAccountRequestException] in case of errors, with reason:
-  /// - [EmailAccountRequestExceptionReason.expired] if the account request has
-  ///   already expired.
-  /// - [EmailAccountRequestExceptionReason.policyViolation] if the password
-  ///   does not comply with the password policy.
-  /// - [EmailAccountRequestExceptionReason.invalid] if the [registrationToken]
-  ///   is invalid.
-  ///
-  /// Throws an [AuthUserBlockedException] if the auth user is blocked.
-  ///
-  /// Returns a session for the newly created user.
-  @override
-  _i3.Future<_i4.AuthSuccess> finishRegistration({
-    required String registrationToken,
-    required String password,
-  }) => caller.callServerEndpoint<_i4.AuthSuccess>(
-    'emailIdp',
-    'finishRegistration',
+  _i2.Future<bool> markAsRead(
+    String token,
+    int notificationId,
+  ) => caller.callServerEndpoint<bool>(
+    'notification',
+    'markAsRead',
     {
-      'registrationToken': registrationToken,
-      'password': password,
+      'token': token,
+      'notificationId': notificationId,
     },
   );
 
-  /// Requests a password reset for [email].
-  ///
-  /// If the email address is registered, an email with reset instructions will
-  /// be send out. If the email is unknown, this method will have no effect.
-  ///
-  /// Always returns a password reset request ID, which can be used to complete
-  /// the reset. If the email is not registered, the returned ID will not be
-  /// valid.
-  ///
-  /// Throws an [EmailAccountPasswordResetException] in case of errors, with reason:
-  /// - [EmailAccountPasswordResetExceptionReason.tooManyAttempts] if the user has
-  ///   made too many attempts trying to request a password reset.
-  ///
+  _i2.Future<int> markAllAsRead(String token) => caller.callServerEndpoint<int>(
+    'notification',
+    'markAllAsRead',
+    {'token': token},
+  );
+}
+
+/// {@category Endpoint}
+class EndpointPayment extends _i1.EndpointRef {
+  EndpointPayment(_i1.EndpointCaller caller) : super(caller);
+
   @override
-  _i3.Future<_i2.UuidValue> startPasswordReset({required String email}) =>
-      caller.callServerEndpoint<_i2.UuidValue>(
-        'emailIdp',
-        'startPasswordReset',
-        {'email': email},
+  String get name => 'payment';
+
+  _i2.Future<_i5.Payment> createPayment(
+    String token,
+    int subscriptionId,
+    double amountUsdt,
+    String currency,
+    String? network,
+  ) => caller.callServerEndpoint<_i5.Payment>(
+    'payment',
+    'createPayment',
+    {
+      'token': token,
+      'subscriptionId': subscriptionId,
+      'amountUsdt': amountUsdt,
+      'currency': currency,
+      'network': network,
+    },
+  );
+
+  _i2.Future<_i5.Payment?> verifyPayment(
+    String token,
+    int paymentId,
+  ) => caller.callServerEndpoint<_i5.Payment?>(
+    'payment',
+    'verifyPayment',
+    {
+      'token': token,
+      'paymentId': paymentId,
+    },
+  );
+
+  _i2.Future<List<_i5.Payment>> listPayments(String token) =>
+      caller.callServerEndpoint<List<_i5.Payment>>(
+        'payment',
+        'listPayments',
+        {'token': token},
+      );
+}
+
+/// {@category Endpoint}
+class EndpointSubscription extends _i1.EndpointRef {
+  EndpointSubscription(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'subscription';
+
+  _i2.Future<List<_i4.Subscription>> listSubscriptions(String token) =>
+      caller.callServerEndpoint<List<_i4.Subscription>>(
+        'subscription',
+        'listSubscriptions',
+        {'token': token},
       );
 
-  /// Verifies a password reset code and returns a finishPasswordResetToken
-  /// that can be used to finish the password reset.
-  ///
-  /// Throws an [EmailAccountPasswordResetException] in case of errors, with reason:
-  /// - [EmailAccountPasswordResetExceptionReason.expired] if the password reset
-  ///   request has already expired.
-  /// - [EmailAccountPasswordResetExceptionReason.tooManyAttempts] if the user has
-  ///   made too many attempts trying to verify the password reset.
-  /// - [EmailAccountPasswordResetExceptionReason.invalid] if no request exists
-  ///   for the given [passwordResetRequestId] or [verificationCode] is invalid.
-  ///
-  /// If multiple steps are required to complete the password reset, this endpoint
-  /// should be overridden to return credentials for the next step instead
-  /// of the credentials for setting the password.
-  @override
-  _i3.Future<String> verifyPasswordResetCode({
-    required _i2.UuidValue passwordResetRequestId,
-    required String verificationCode,
-  }) => caller.callServerEndpoint<String>(
-    'emailIdp',
-    'verifyPasswordResetCode',
+  _i2.Future<_i4.Subscription> subscribe(
+    String token,
+    String plan,
+    double priceUsdt,
+    int durationDays,
+  ) => caller.callServerEndpoint<_i4.Subscription>(
+    'subscription',
+    'subscribe',
     {
-      'passwordResetRequestId': passwordResetRequestId,
-      'verificationCode': verificationCode,
+      'token': token,
+      'plan': plan,
+      'priceUsdt': priceUsdt,
+      'durationDays': durationDays,
     },
   );
 
-  /// Completes a password reset request by setting a new password.
-  ///
-  /// The [verificationCode] returned from [verifyPasswordResetCode] is used to
-  /// validate the password reset request.
-  ///
-  /// Throws an [EmailAccountPasswordResetException] in case of errors, with reason:
-  /// - [EmailAccountPasswordResetExceptionReason.expired] if the password reset
-  ///   request has already expired.
-  /// - [EmailAccountPasswordResetExceptionReason.policyViolation] if the new
-  ///   password does not comply with the password policy.
-  /// - [EmailAccountPasswordResetExceptionReason.invalid] if no request exists
-  ///   for the given [passwordResetRequestId] or [verificationCode] is invalid.
-  ///
-  /// Throws an [AuthUserBlockedException] if the auth user is blocked.
-  @override
-  _i3.Future<void> finishPasswordReset({
-    required String finishPasswordResetToken,
-    required String newPassword,
-  }) => caller.callServerEndpoint<void>(
-    'emailIdp',
-    'finishPasswordReset',
+  _i2.Future<bool> cancelSubscription(
+    String token,
+    int subscriptionId,
+  ) => caller.callServerEndpoint<bool>(
+    'subscription',
+    'cancelSubscription',
     {
-      'finishPasswordResetToken': finishPasswordResetToken,
-      'newPassword': newPassword,
+      'token': token,
+      'subscriptionId': subscriptionId,
+    },
+  );
+
+  _i2.Future<_i4.Subscription> upgradeSubscription(
+    String token,
+    int subscriptionId,
+    String newPlan,
+    double newPriceUsdt,
+    int newDurationDays,
+  ) => caller.callServerEndpoint<_i4.Subscription>(
+    'subscription',
+    'upgradeSubscription',
+    {
+      'token': token,
+      'subscriptionId': subscriptionId,
+      'newPlan': newPlan,
+      'newPriceUsdt': newPriceUsdt,
+      'newDurationDays': newDurationDays,
+    },
+  );
+
+  _i2.Future<_i4.Subscription> renewSubscription(
+    String token,
+    int subscriptionId,
+    int extraDays,
+  ) => caller.callServerEndpoint<_i4.Subscription>(
+    'subscription',
+    'renewSubscription',
+    {
+      'token': token,
+      'subscriptionId': subscriptionId,
+      'extraDays': extraDays,
     },
   );
 }
 
-/// By extending [RefreshJwtTokensEndpoint], the JWT token refresh endpoint
-/// is made available on the server and enables automatic token refresh on the client.
 /// {@category Endpoint}
-class EndpointJwtRefresh extends _i4.EndpointRefreshJwtTokens {
-  EndpointJwtRefresh(_i2.EndpointCaller caller) : super(caller);
+class EndpointTransaction extends _i1.EndpointRef {
+  EndpointTransaction(_i1.EndpointCaller caller) : super(caller);
 
   @override
-  String get name => 'jwtRefresh';
+  String get name => 'transaction';
 
-  /// Creates a new token pair for the given [refreshToken].
-  ///
-  /// Can throw the following exceptions:
-  /// -[RefreshTokenMalformedException]: refresh token is malformed and could
-  ///   not be parsed. Not expected to happen for tokens issued by the server.
-  /// -[RefreshTokenNotFoundException]: refresh token is unknown to the server.
-  ///   Either the token was deleted or generated by a different server.
-  /// -[RefreshTokenExpiredException]: refresh token has expired. Will happen
-  ///   only if it has not been used within configured `refreshTokenLifetime`.
-  /// -[RefreshTokenInvalidSecretException]: refresh token is incorrect, meaning
-  ///   it does not refer to the current secret refresh token. This indicates
-  ///   either a malfunctioning client or a malicious attempt by someone who has
-  ///   obtained the refresh token. In this case the underlying refresh token
-  ///   will be deleted, and access to it will expire fully when the last access
-  ///   token is elapsed.
-  ///
-  /// This endpoint is unauthenticated, meaning the client won't include any
-  /// authentication information with the call.
+  _i2.Future<List<_i9.Trans>> listTransactions(
+    String token, {
+    String? exchangeName,
+    DateTime? startDate,
+    DateTime? endDate,
+  }) => caller.callServerEndpoint<List<_i9.Trans>>(
+    'transaction',
+    'listTransactions',
+    {
+      'token': token,
+      'exchangeName': exchangeName,
+      'startDate': startDate,
+      'endDate': endDate,
+    },
+  );
+
+  _i2.Future<_i9.Trans?> getTransaction(
+    String token,
+    int transactionId,
+  ) => caller.callServerEndpoint<_i9.Trans?>(
+    'transaction',
+    'getTransaction',
+    {
+      'token': token,
+      'transactionId': transactionId,
+    },
+  );
+}
+
+/// {@category Endpoint}
+class EndpointUser extends _i1.EndpointRef {
+  EndpointUser(_i1.EndpointCaller caller) : super(caller);
+
   @override
-  _i3.Future<_i4.AuthSuccess> refreshAccessToken({
-    required String refreshToken,
-  }) => caller.callServerEndpoint<_i4.AuthSuccess>(
-    'jwtRefresh',
-    'refreshAccessToken',
-    {'refreshToken': refreshToken},
-    authenticated: false,
+  String get name => 'user';
+
+  _i2.Future<_i3.User?> getProfile(String token) =>
+      caller.callServerEndpoint<_i3.User?>(
+        'user',
+        'getProfile',
+        {'token': token},
+      );
+
+  _i2.Future<_i3.User> updateProfile(
+    String token, {
+    String? firstName,
+    String? lastName,
+    String? country,
+  }) => caller.callServerEndpoint<_i3.User>(
+    'user',
+    'updateProfile',
+    {
+      'token': token,
+      'firstName': firstName,
+      'lastName': lastName,
+      'country': country,
+    },
+  );
+
+  _i2.Future<bool> changePassword(
+    String token,
+    String oldPassword,
+    String newPassword,
+  ) => caller.callServerEndpoint<bool>(
+    'user',
+    'changePassword',
+    {
+      'token': token,
+      'oldPassword': oldPassword,
+      'newPassword': newPassword,
+    },
   );
 }
 
 /// This is an example endpoint that returns a greeting message through
 /// its [hello] method.
 /// {@category Endpoint}
-class EndpointGreeting extends _i2.EndpointRef {
-  EndpointGreeting(_i2.EndpointCaller caller) : super(caller);
+class EndpointGreeting extends _i1.EndpointRef {
+  EndpointGreeting(_i1.EndpointCaller caller) : super(caller);
 
   @override
   String get name => 'greeting';
 
   /// Returns a personalized greeting message: "Hello {name}".
-  _i3.Future<_i5.Greeting> hello(String name) =>
-      caller.callServerEndpoint<_i5.Greeting>(
+  _i2.Future<_i10.Greeting> hello(String name) =>
+      caller.callServerEndpoint<_i10.Greeting>(
         'greeting',
         'hello',
         {'name': name},
@@ -253,16 +465,16 @@ class EndpointGreeting extends _i2.EndpointRef {
 
 class Modules {
   Modules(Client client) {
-    serverpod_auth_idp = _i1.Caller(client);
-    serverpod_auth_core = _i4.Caller(client);
+    serverpod_auth_idp = _i11.Caller(client);
+    serverpod_auth_core = _i12.Caller(client);
   }
 
-  late final _i1.Caller serverpod_auth_idp;
+  late final _i11.Caller serverpod_auth_idp;
 
-  late final _i4.Caller serverpod_auth_core;
+  late final _i12.Caller serverpod_auth_core;
 }
 
-class Client extends _i2.ServerpodClientShared {
+class Client extends _i1.ServerpodClientShared {
   Client(
     String host, {
     dynamic securityContext,
@@ -273,16 +485,16 @@ class Client extends _i2.ServerpodClientShared {
     Duration? streamingConnectionTimeout,
     Duration? connectionTimeout,
     Function(
-      _i2.MethodCallContext,
+      _i1.MethodCallContext,
       Object,
       StackTrace,
     )?
     onFailedCall,
-    Function(_i2.MethodCallContext)? onSucceededCall,
+    Function(_i1.MethodCallContext)? onSucceededCall,
     bool? disconnectStreamsOnLostInternetConnection,
   }) : super(
          host,
-         _i6.Protocol(),
+         _i13.Protocol(),
          securityContext: securityContext,
          streamingConnectionTimeout: streamingConnectionTimeout,
          connectionTimeout: connectionTimeout,
@@ -291,29 +503,57 @@ class Client extends _i2.ServerpodClientShared {
          disconnectStreamsOnLostInternetConnection:
              disconnectStreamsOnLostInternetConnection,
        ) {
-    emailIdp = EndpointEmailIdp(this);
-    jwtRefresh = EndpointJwtRefresh(this);
+    admin = EndpointAdmin(this);
+    apiKey = EndpointApiKey(this);
+    auditLog = EndpointAuditLog(this);
+    auth = EndpointAuth(this);
+    notification = EndpointNotification(this);
+    payment = EndpointPayment(this);
+    subscription = EndpointSubscription(this);
+    transaction = EndpointTransaction(this);
+    user = EndpointUser(this);
     greeting = EndpointGreeting(this);
     modules = Modules(this);
   }
 
-  late final EndpointEmailIdp emailIdp;
+  late final EndpointAdmin admin;
 
-  late final EndpointJwtRefresh jwtRefresh;
+  late final EndpointApiKey apiKey;
+
+  late final EndpointAuditLog auditLog;
+
+  late final EndpointAuth auth;
+
+  late final EndpointNotification notification;
+
+  late final EndpointPayment payment;
+
+  late final EndpointSubscription subscription;
+
+  late final EndpointTransaction transaction;
+
+  late final EndpointUser user;
 
   late final EndpointGreeting greeting;
 
   late final Modules modules;
 
   @override
-  Map<String, _i2.EndpointRef> get endpointRefLookup => {
-    'emailIdp': emailIdp,
-    'jwtRefresh': jwtRefresh,
+  Map<String, _i1.EndpointRef> get endpointRefLookup => {
+    'admin': admin,
+    'apiKey': apiKey,
+    'auditLog': auditLog,
+    'auth': auth,
+    'notification': notification,
+    'payment': payment,
+    'subscription': subscription,
+    'transaction': transaction,
+    'user': user,
     'greeting': greeting,
   };
 
   @override
-  Map<String, _i2.ModuleEndpointCaller> get moduleLookup => {
+  Map<String, _i1.ModuleEndpointCaller> get moduleLookup => {
     'serverpod_auth_idp': modules.serverpod_auth_idp,
     'serverpod_auth_core': modules.serverpod_auth_core,
   };

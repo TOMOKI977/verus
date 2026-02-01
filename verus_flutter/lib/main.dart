@@ -30,11 +30,11 @@ void main() async {
   // defaults to http://$localhost:8080/ if not found.
   final serverUrl = await getServerUrl();
 
-  client = Client(serverUrl)
-    ..connectivityMonitor = FlutterConnectivityMonitor()
-    ..authSessionManager = FlutterAuthSessionManager();
+  // client = Client(serverUrl)
+  //   ..connectivityMonitor = FlutterConnectivityMonitor()
+  //   ..authSessionManager = FlutterAuthSessionManager();
 
-  client.auth.initialize();
+  // client.auth.initialize();
 
   runApp(const MyApp());
 }

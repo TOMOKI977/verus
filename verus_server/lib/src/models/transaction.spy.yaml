@@ -2,24 +2,52 @@ class: Trans
 table: transactions
 fields:
   id: int?
-  userId: int # FK a User
-  apiKeyId: int # FK a ApiKey
+
+  # ===========================
+  # Relaciones (FKs)
+  # ===========================
+  userId: int        # FK a User
+  apiKeyId: int      # FK a ApiKey
+
+  # ===========================
+  # Identificación de la transacción
+  # ===========================
   orderNumber: String # único global
-  exchange: String
-  timestamp: DateTime
+  exchange: String    # nombre del exchange
+  timestamp: DateTime # fecha/hora de la transacción
+
+  # ===========================
+  # Datos financieros
+  # ===========================
   cryptoAmountUsdt: double
   localAmount: double
   localCurrency: String
   exchangeRate: double
-  txType: String # 'buy', 'sell'
-  status: String # 'completed', 'cancelled', etc.
+  txType: String       # 'buy', 'sell'
+  status: String       # 'completed', 'cancelled', etc.
+
+  # ===========================
+  # Contraparte
+  # ===========================
   counterpartyName: String?
   counterpartyUserId: String?
+
+  # ===========================
+  # Resultados / métricas
+  # ===========================
   profitUsdt: double?
   profitLocal: double?
   profitMarginPercent: double?
+
+  # ===========================
+  # Comprobante bancario
+  # ===========================
   bankProofUrl: String?
   hasProof: bool, default=false
+
+  # ===========================
+  # Metadata
+  # ===========================
   createdAt: DateTime
   updatedAt: DateTime
 

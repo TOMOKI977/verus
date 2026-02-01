@@ -22,18 +22,27 @@ import 'bank_account.dart' as _i7;
 import 'country_config.dart' as _i8;
 import 'email_verification.dart' as _i9;
 import 'greetings/greeting.dart' as _i10;
-import 'payment.dart' as _i11;
-import 'psav_declaration.dart' as _i12;
-import 'subscription.dart' as _i13;
-import 'sync_job.dart' as _i14;
-import 'transaction.dart' as _i15;
-import 'user.dart' as _i16;
+import 'notification.dart' as _i11;
+import 'payment.dart' as _i12;
+import 'psav_declaration.dart' as _i13;
+import 'subscription.dart' as _i14;
+import 'sync_job.dart' as _i15;
+import 'transaction.dart' as _i16;
+import 'user.dart' as _i17;
+import 'package:verus_server/src/generated/user.dart' as _i18;
+import 'package:verus_server/src/generated/subscription.dart' as _i19;
+import 'package:verus_server/src/generated/payment.dart' as _i20;
+import 'package:verus_server/src/generated/audit_log.dart' as _i21;
+import 'package:verus_server/src/generated/api_key.dart' as _i22;
+import 'package:verus_server/src/generated/notification.dart' as _i23;
+import 'package:verus_server/src/generated/transaction.dart' as _i24;
 export 'api_key.dart';
 export 'audit_log.dart';
 export 'bank_account.dart';
 export 'country_config.dart';
 export 'email_verification.dart';
 export 'greetings/greeting.dart';
+export 'notification.dart';
 export 'payment.dart';
 export 'psav_declaration.dart';
 export 'subscription.dart';
@@ -118,6 +127,13 @@ class Protocol extends _i1.SerializationManagerServer {
           isNullable: false,
           dartType: 'String',
           columnDefault: '\'idle\'::text',
+        ),
+        _i2.ColumnDefinition(
+          name: 'status',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+          columnDefault: '\'active\'::text',
         ),
         _i2.ColumnDefinition(
           name: 'createdAt',
@@ -761,6 +777,99 @@ class Protocol extends _i1.SerializationManagerServer {
             _i2.IndexElementDefinition(
               type: _i2.IndexElementDefinitionType.column,
               definition: 'isUsed',
+            ),
+          ],
+          type: 'btree',
+          isUnique: false,
+          isPrimary: false,
+        ),
+      ],
+      managed: true,
+    ),
+    _i2.TableDefinition(
+      name: 'notifications',
+      dartName: 'Notification',
+      schema: 'public',
+      module: 'verus',
+      columns: [
+        _i2.ColumnDefinition(
+          name: 'id',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'nextval(\'notifications_id_seq\'::regclass)',
+        ),
+        _i2.ColumnDefinition(
+          name: 'userId',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int',
+        ),
+        _i2.ColumnDefinition(
+          name: 'title',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'message',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _i2.ColumnDefinition(
+          name: 'type',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+          columnDefault: '\'info\'::text',
+        ),
+        _i2.ColumnDefinition(
+          name: 'read',
+          columnType: _i2.ColumnType.boolean,
+          isNullable: false,
+          dartType: 'bool',
+          columnDefault: 'false',
+        ),
+        _i2.ColumnDefinition(
+          name: 'createdAt',
+          columnType: _i2.ColumnType.timestampWithoutTimeZone,
+          isNullable: false,
+          dartType: 'DateTime',
+        ),
+        _i2.ColumnDefinition(
+          name: 'updatedAt',
+          columnType: _i2.ColumnType.timestampWithoutTimeZone,
+          isNullable: false,
+          dartType: 'DateTime',
+        ),
+      ],
+      foreignKeys: [],
+      indexes: [
+        _i2.IndexDefinition(
+          indexName: 'notifications_pkey',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'id',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: true,
+        ),
+        _i2.IndexDefinition(
+          indexName: 'notification_user_idx',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'userId',
+            ),
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'createdAt',
             ),
           ],
           type: 'btree',
@@ -1666,6 +1775,45 @@ class Protocol extends _i1.SerializationManagerServer {
           columnDefault: '\'user\'::text',
         ),
         _i2.ColumnDefinition(
+          name: 'emailVerified',
+          columnType: _i2.ColumnType.boolean,
+          isNullable: false,
+          dartType: 'bool',
+          columnDefault: 'false',
+        ),
+        _i2.ColumnDefinition(
+          name: 'onboardingCompleted',
+          columnType: _i2.ColumnType.boolean,
+          isNullable: false,
+          dartType: 'bool',
+          columnDefault: 'false',
+        ),
+        _i2.ColumnDefinition(
+          name: 'activeSubscriptionId',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: true,
+          dartType: 'int?',
+        ),
+        _i2.ColumnDefinition(
+          name: 'totpSecret',
+          columnType: _i2.ColumnType.text,
+          isNullable: true,
+          dartType: 'String?',
+        ),
+        _i2.ColumnDefinition(
+          name: 'totpEnabled',
+          columnType: _i2.ColumnType.boolean,
+          isNullable: false,
+          dartType: 'bool',
+          columnDefault: 'false',
+        ),
+        _i2.ColumnDefinition(
+          name: 'lastLoginAt',
+          columnType: _i2.ColumnType.timestampWithoutTimeZone,
+          isNullable: true,
+          dartType: 'DateTime?',
+        ),
+        _i2.ColumnDefinition(
           name: 'hasPsav',
           columnType: _i2.ColumnType.boolean,
           isNullable: false,
@@ -1681,8 +1829,8 @@ class Protocol extends _i1.SerializationManagerServer {
         _i2.ColumnDefinition(
           name: 'preferredCurrencies',
           columnType: _i2.ColumnType.text,
-          isNullable: false,
-          dartType: 'String',
+          isNullable: true,
+          dartType: 'String?',
         ),
         _i2.ColumnDefinition(
           name: 'primaryCurrency',
@@ -1706,43 +1854,22 @@ class Protocol extends _i1.SerializationManagerServer {
           columnDefault: '\'es\'::text',
         ),
         _i2.ColumnDefinition(
-          name: 'totpSecret',
-          columnType: _i2.ColumnType.text,
-          isNullable: true,
-          dartType: 'String?',
-        ),
-        _i2.ColumnDefinition(
-          name: 'totpEnabled',
-          columnType: _i2.ColumnType.boolean,
-          isNullable: false,
-          dartType: 'bool',
-          columnDefault: 'false',
-        ),
-        _i2.ColumnDefinition(
-          name: 'onboardingCompleted',
-          columnType: _i2.ColumnType.boolean,
-          isNullable: false,
-          dartType: 'bool',
-          columnDefault: 'false',
-        ),
-        _i2.ColumnDefinition(
-          name: 'activeSubscriptionId',
-          columnType: _i2.ColumnType.bigint,
-          isNullable: true,
-          dartType: 'int?',
-        ),
-        _i2.ColumnDefinition(
-          name: 'emailVerified',
-          columnType: _i2.ColumnType.boolean,
-          isNullable: false,
-          dartType: 'bool',
-          columnDefault: 'false',
-        ),
-        _i2.ColumnDefinition(
-          name: 'lastLoginAt',
+          name: 'jwtIssuedAt',
           columnType: _i2.ColumnType.timestampWithoutTimeZone,
           isNullable: true,
           dartType: 'DateTime?',
+        ),
+        _i2.ColumnDefinition(
+          name: 'jwtExpiresAt',
+          columnType: _i2.ColumnType.timestampWithoutTimeZone,
+          isNullable: true,
+          dartType: 'DateTime?',
+        ),
+        _i2.ColumnDefinition(
+          name: 'refreshToken',
+          columnType: _i2.ColumnType.text,
+          isNullable: true,
+          dartType: 'String?',
         ),
         _i2.ColumnDefinition(
           name: 'createdAt',
@@ -1838,23 +1965,26 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i10.Greeting) {
       return _i10.Greeting.fromJson(data) as T;
     }
-    if (t == _i11.Payment) {
-      return _i11.Payment.fromJson(data) as T;
+    if (t == _i11.Notification) {
+      return _i11.Notification.fromJson(data) as T;
     }
-    if (t == _i12.PsavDeclaration) {
-      return _i12.PsavDeclaration.fromJson(data) as T;
+    if (t == _i12.Payment) {
+      return _i12.Payment.fromJson(data) as T;
     }
-    if (t == _i13.Subscription) {
-      return _i13.Subscription.fromJson(data) as T;
+    if (t == _i13.PsavDeclaration) {
+      return _i13.PsavDeclaration.fromJson(data) as T;
     }
-    if (t == _i14.SyncJob) {
-      return _i14.SyncJob.fromJson(data) as T;
+    if (t == _i14.Subscription) {
+      return _i14.Subscription.fromJson(data) as T;
     }
-    if (t == _i15.Trans) {
-      return _i15.Trans.fromJson(data) as T;
+    if (t == _i15.SyncJob) {
+      return _i15.SyncJob.fromJson(data) as T;
     }
-    if (t == _i16.User) {
-      return _i16.User.fromJson(data) as T;
+    if (t == _i16.Trans) {
+      return _i16.Trans.fromJson(data) as T;
+    }
+    if (t == _i17.User) {
+      return _i17.User.fromJson(data) as T;
     }
     if (t == _i1.getType<_i5.ApiKey?>()) {
       return (data != null ? _i5.ApiKey.fromJson(data) : null) as T;
@@ -1874,23 +2004,63 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i1.getType<_i10.Greeting?>()) {
       return (data != null ? _i10.Greeting.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i11.Payment?>()) {
-      return (data != null ? _i11.Payment.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i11.Notification?>()) {
+      return (data != null ? _i11.Notification.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i12.PsavDeclaration?>()) {
-      return (data != null ? _i12.PsavDeclaration.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i12.Payment?>()) {
+      return (data != null ? _i12.Payment.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i13.Subscription?>()) {
-      return (data != null ? _i13.Subscription.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i13.PsavDeclaration?>()) {
+      return (data != null ? _i13.PsavDeclaration.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i14.SyncJob?>()) {
-      return (data != null ? _i14.SyncJob.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i14.Subscription?>()) {
+      return (data != null ? _i14.Subscription.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i15.Trans?>()) {
-      return (data != null ? _i15.Trans.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i15.SyncJob?>()) {
+      return (data != null ? _i15.SyncJob.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i16.User?>()) {
-      return (data != null ? _i16.User.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i16.Trans?>()) {
+      return (data != null ? _i16.Trans.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i17.User?>()) {
+      return (data != null ? _i17.User.fromJson(data) : null) as T;
+    }
+    if (t == List<_i18.User>) {
+      return (data as List).map((e) => deserialize<_i18.User>(e)).toList() as T;
+    }
+    if (t == List<_i19.Subscription>) {
+      return (data as List)
+              .map((e) => deserialize<_i19.Subscription>(e))
+              .toList()
+          as T;
+    }
+    if (t == List<_i20.Payment>) {
+      return (data as List).map((e) => deserialize<_i20.Payment>(e)).toList()
+          as T;
+    }
+    if (t == List<_i21.AuditLog>) {
+      return (data as List).map((e) => deserialize<_i21.AuditLog>(e)).toList()
+          as T;
+    }
+    if (t == List<_i22.ApiKey>) {
+      return (data as List).map((e) => deserialize<_i22.ApiKey>(e)).toList()
+          as T;
+    }
+    if (t == Map<String, dynamic>) {
+      return (data as Map).map(
+            (k, v) => MapEntry(deserialize<String>(k), deserialize<dynamic>(v)),
+          )
+          as T;
+    }
+    if (t == List<_i23.Notification>) {
+      return (data as List)
+              .map((e) => deserialize<_i23.Notification>(e))
+              .toList()
+          as T;
+    }
+    if (t == List<_i24.Trans>) {
+      return (data as List).map((e) => deserialize<_i24.Trans>(e)).toList()
+          as T;
     }
     try {
       return _i3.Protocol().deserialize<T>(data, t);
@@ -1912,12 +2082,13 @@ class Protocol extends _i1.SerializationManagerServer {
       _i8.CountryConfig => 'CountryConfig',
       _i9.EmailVerification => 'EmailVerification',
       _i10.Greeting => 'Greeting',
-      _i11.Payment => 'Payment',
-      _i12.PsavDeclaration => 'PsavDeclaration',
-      _i13.Subscription => 'Subscription',
-      _i14.SyncJob => 'SyncJob',
-      _i15.Trans => 'Trans',
-      _i16.User => 'User',
+      _i11.Notification => 'Notification',
+      _i12.Payment => 'Payment',
+      _i13.PsavDeclaration => 'PsavDeclaration',
+      _i14.Subscription => 'Subscription',
+      _i15.SyncJob => 'SyncJob',
+      _i16.Trans => 'Trans',
+      _i17.User => 'User',
       _ => null,
     };
   }
@@ -1944,17 +2115,19 @@ class Protocol extends _i1.SerializationManagerServer {
         return 'EmailVerification';
       case _i10.Greeting():
         return 'Greeting';
-      case _i11.Payment():
+      case _i11.Notification():
+        return 'Notification';
+      case _i12.Payment():
         return 'Payment';
-      case _i12.PsavDeclaration():
+      case _i13.PsavDeclaration():
         return 'PsavDeclaration';
-      case _i13.Subscription():
+      case _i14.Subscription():
         return 'Subscription';
-      case _i14.SyncJob():
+      case _i15.SyncJob():
         return 'SyncJob';
-      case _i15.Trans():
+      case _i16.Trans():
         return 'Trans';
-      case _i16.User():
+      case _i17.User():
         return 'User';
     }
     className = _i2.Protocol().getClassNameForObject(data);
@@ -1996,23 +2169,26 @@ class Protocol extends _i1.SerializationManagerServer {
     if (dataClassName == 'Greeting') {
       return deserialize<_i10.Greeting>(data['data']);
     }
+    if (dataClassName == 'Notification') {
+      return deserialize<_i11.Notification>(data['data']);
+    }
     if (dataClassName == 'Payment') {
-      return deserialize<_i11.Payment>(data['data']);
+      return deserialize<_i12.Payment>(data['data']);
     }
     if (dataClassName == 'PsavDeclaration') {
-      return deserialize<_i12.PsavDeclaration>(data['data']);
+      return deserialize<_i13.PsavDeclaration>(data['data']);
     }
     if (dataClassName == 'Subscription') {
-      return deserialize<_i13.Subscription>(data['data']);
+      return deserialize<_i14.Subscription>(data['data']);
     }
     if (dataClassName == 'SyncJob') {
-      return deserialize<_i14.SyncJob>(data['data']);
+      return deserialize<_i15.SyncJob>(data['data']);
     }
     if (dataClassName == 'Trans') {
-      return deserialize<_i15.Trans>(data['data']);
+      return deserialize<_i16.Trans>(data['data']);
     }
     if (dataClassName == 'User') {
-      return deserialize<_i16.User>(data['data']);
+      return deserialize<_i17.User>(data['data']);
     }
     if (dataClassName.startsWith('serverpod.')) {
       data['className'] = dataClassName.substring(10);
@@ -2060,18 +2236,20 @@ class Protocol extends _i1.SerializationManagerServer {
         return _i8.CountryConfig.t;
       case _i9.EmailVerification:
         return _i9.EmailVerification.t;
-      case _i11.Payment:
-        return _i11.Payment.t;
-      case _i12.PsavDeclaration:
-        return _i12.PsavDeclaration.t;
-      case _i13.Subscription:
-        return _i13.Subscription.t;
-      case _i14.SyncJob:
-        return _i14.SyncJob.t;
-      case _i15.Trans:
-        return _i15.Trans.t;
-      case _i16.User:
-        return _i16.User.t;
+      case _i11.Notification:
+        return _i11.Notification.t;
+      case _i12.Payment:
+        return _i12.Payment.t;
+      case _i13.PsavDeclaration:
+        return _i13.PsavDeclaration.t;
+      case _i14.Subscription:
+        return _i14.Subscription.t;
+      case _i15.SyncJob:
+        return _i15.SyncJob.t;
+      case _i16.Trans:
+        return _i16.Trans.t;
+      case _i17.User:
+        return _i17.User.t;
     }
     return null;
   }
