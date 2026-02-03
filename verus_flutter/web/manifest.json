@@ -1,6 +1,6 @@
 {
-    "name": "verus_flutter",
-    "short_name": "verus_flutter",
+    "name": "Verus Platforms",
+    "short_name": "Verus",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
