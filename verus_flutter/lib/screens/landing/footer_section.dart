@@ -9,6 +9,7 @@ class FooterSection extends StatelessWidget {
     final currentYear = DateTime.now().year;
 
     return Container(
+      width: double.infinity,
       padding: const EdgeInsets.all(20),
       color: theme.colorScheme.secondary,
       child: Text(
