@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:verus_flutter/core/theme.dart';
+import 'package:verus_flutter/widgets/verus_responsive_container.dart';
 import 'hero_section.dart';
 import 'features_section.dart';
 import 'pricing_section.dart';
@@ -17,67 +20,75 @@ class LandingScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Verus Platforms',
-          // style: theme.textTheme.displayMedium,
-          style: theme.textTheme.displayMedium?.copyWith(
-            color: theme.colorScheme.onPrimary,
+        toolbarHeight: 80,
+        backgroundColor: theme.colorScheme.primary,
+        title: ResponsiveContainer(
+          child: Row(
+            children: [
+              SvgPicture.asset(
+                'images/Verus_Dark.svg',
+                height: 40,
+              ),
+              const SizedBox(width: 12),
+              Text(
+                'Verus',
+                style: theme.textTheme.displayMedium?.copyWith(
+                  color: theme.colorScheme.onPrimary,
+                  fontSize: 28,
+                ),
+              ),
+              const Spacer(),
+              IconButton(
+                icon: Icon(
+                  themeMode == ThemeMode.light
+                      ? Icons.wb_sunny
+                      : Icons.nights_stay,
+                  color: theme.colorScheme.onPrimary,
+                ),
+                onPressed: () {
+                  final notifier = ref.read(themeModeProvider.notifier);
+                  themeMode == ThemeMode.light
+                      ? notifier.setDark()
+                      : notifier.setLight();
+                },
+              ),
+              if (MediaQuery.of(context).size.width > 600)
+                ElevatedButton(
+                  onPressed: () {
+                    // TODO: lógica de descarga
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppTheme.goldenOrange,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 12,
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: const [
+                      Text('Descargar Verus'),
+                      SizedBox(width: 8),
+                      Icon(Icons.download),
+                    ],
+                  ),
+                ),
+            ],
           ),
         ),
-        backgroundColor: theme.colorScheme.primary,
-        actions: [
-          IconButton(
-            icon: Icon(
-              themeMode == ThemeMode.light ? Icons.wb_sunny : Icons.nights_stay,
-              color: theme.colorScheme.onPrimary,
-            ),
-            onPressed: () {
-              final notifier = ref.read(themeModeProvider.notifier);
-              if (themeMode == ThemeMode.light) {
-                notifier.setDark();
-              } else {
-                notifier.setLight();
-              }
-            },
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/login');
-            },
-            child: Text(
-              'Iniciar Sesión',
-              style: theme.textTheme.bodyLarge?.copyWith(
-                color: theme.colorScheme.onPrimary,
-              ),
-            ),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/register');
-            },
-            child: Text(
-              'Registrarse',
-              style: theme.textTheme.bodyLarge?.copyWith(
-                color: theme.colorScheme.onPrimary,
-              ),
-            ),
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Center(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 1200),
-                child: const Column(
-                  children: [
-                    HeroSection(),
-                    FeaturesSection(),
-                    PricingSection(),
-                    FaqSection(),
-                  ],
-                ),
+            ResponsiveContainer(
+              child: const Column(
+                children: [
+                  HeroSection(),
+                  FeaturesSection(),
+                  PricingSection(),
+                  FaqSection(),
+                ],
               ),
             ),
             const FooterSection(),
