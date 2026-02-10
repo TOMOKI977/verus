@@ -35,6 +35,14 @@ dependencies:
   flutter_riverpod: ^3.2.1
   flutter_secure_storage: ^10.0.0
   google_fonts: ^7.1.0
+  flutter_svg: ^2.2.3
+  animated_text_kit: ^4.3.0
+  youtube_player_iframe: ^5.2.2
+  webview_flutter: ^4.13.1
+  webview_flutter_android: ^4.10.11
+  webview_flutter_wkwebview: ^3.23.6
+  webview_flutter_web: ^0.2.3+4
+  url_launcher: ^6.3.2
 
 dev_dependencies:
   flutter_lints: '>=3.0.0 <7.0.0'
@@ -64,6 +72,7 @@ flutter:
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages
   assets:
+    - assets/images/
     - assets/config.json
 dependency_overrides:
   flutter_secure_storage: ^10.0.0
