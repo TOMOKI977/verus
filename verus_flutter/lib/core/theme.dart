@@ -7,6 +7,16 @@ class AppTheme {
   static const Color blueSecondary = Color(0xFF0025AE);
   static const Color darkGray = Color(0xFF262626);
 
+  static const Color goldenOrange = Color(0xFFF59E0B);
+  static const Color brandy = Color(0xFF722300);
+  static const Color powderPetal = Color(0xFFFFE7D3);
+  static const Color cayenneRed = Color(0xFFEA580C);
+  static const Color oxblood = Color(0xFF920000);
+
+  static const Color greenAccent = Color(0xFF22C55E);
+  static const Color purpleAccent = Color(0xFF8B5CF6);
+  static const Color tealAccent = Color(0xFF14B8A6);
+
   static ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
     primaryColor: bluePrimary,
@@ -17,9 +27,15 @@ class AppTheme {
       background: white,
       onPrimary: white,
       onSecondary: white,
-      onBackground: darkGray,
+      onSurface: darkGray,
     ),
     textTheme: TextTheme(
+      // Extra large (Hero headline)
+      headlineLarge: GoogleFonts.spaceMono(
+        fontSize: 84,
+        fontWeight: FontWeight.bold,
+        color: darkGray,
+      ),
       // H1
       displayLarge: GoogleFonts.spaceMono(
         fontSize: 32,
@@ -75,6 +91,34 @@ class AppTheme {
         color: darkGray,
       ),
     ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: bluePrimary,
+        foregroundColor: white,
+        textStyle: GoogleFonts.spaceGrotesk(
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+        ),
+        // padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+      ),
+    ),
+    outlinedButtonTheme: OutlinedButtonThemeData(
+      style: OutlinedButton.styleFrom(
+        foregroundColor: bluePrimary,
+        textStyle: GoogleFonts.spaceGrotesk(
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
+        ),
+        side: const BorderSide(color: bluePrimary),
+        // padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+      ),
+    ),
   );
 
   static ThemeData darkTheme = ThemeData(
@@ -87,9 +131,14 @@ class AppTheme {
       background: darkGray,
       onPrimary: white,
       onSecondary: white,
-      onBackground: white,
+      onSurface: white,
     ),
     textTheme: TextTheme(
+      headlineLarge: GoogleFonts.spaceMono(
+        fontSize: 84,
+        fontWeight: FontWeight.bold,
+        color: white,
+      ),
       displayLarge: GoogleFonts.spaceMono(
         fontSize: 32,
         fontWeight: FontWeight.bold,
@@ -134,6 +183,35 @@ class AppTheme {
         fontSize: 10,
         fontWeight: FontWeight.w300,
         color: white,
+      ),
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: blueSecondary,
+        foregroundColor: white,
+        textStyle: GoogleFonts.spaceGrotesk(
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+        ),
+        // padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+      ),
+    ),
+    outlinedButtonTheme: OutlinedButtonThemeData(
+      style: OutlinedButton.styleFrom(
+        foregroundColor: AppTheme.white, // texto blanco
+        textStyle: GoogleFonts.spaceGrotesk(
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
+          color: AppTheme.white, // tipografía blanca
+        ),
+        side: const BorderSide(color: AppTheme.white), // borde blanco
+        // padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
       ),
     ),
   );
