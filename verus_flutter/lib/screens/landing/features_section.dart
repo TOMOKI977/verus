@@ -55,7 +55,7 @@ class FeaturesSection extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Container(
-      padding: const EdgeInsets.only(left: 0, right: 0, top: 20, bottom: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

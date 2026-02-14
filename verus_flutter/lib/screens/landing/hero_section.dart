@@ -58,19 +58,7 @@ class HeroSection extends StatelessWidget {
             isMobile
                 ? Column(
                     children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          // TODO: lógica de descarga
-                        },
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: const [
-                            Text('Descargar Verus'),
-                            SizedBox(width: 8),
-                            Icon(Icons.download),
-                          ],
-                        ),
-                      ),
+                      const DownloadButton(),
                       const SizedBox(height: 12),
                       OutlinedButton(
                         onPressed: () {
