@@ -24,7 +24,7 @@ class AppTheme {
     colorScheme: const ColorScheme.light(
       primary: bluePrimary,
       secondary: blueSecondary,
-      background: white,
+      surface: white,
       onPrimary: white,
       onSecondary: white,
       onSurface: darkGray,
@@ -119,6 +119,69 @@ class AppTheme {
         ),
       ),
     ),
+    inputDecorationTheme: InputDecorationTheme(
+      border: const OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(8)),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: AppTheme.darkGray.withOpacity(0.4), // borde tenue
+          width: 1,
+        ),
+        borderRadius: const BorderRadius.all(Radius.circular(8)),
+      ),
+      focusedBorder: const OutlineInputBorder(
+        borderSide: BorderSide(color: AppTheme.bluePrimary, width: 2),
+        borderRadius: BorderRadius.all(Radius.circular(8)),
+      ),
+      errorBorder: const OutlineInputBorder(
+        borderSide: BorderSide(color: AppTheme.cayenneRed, width: 2),
+        borderRadius: BorderRadius.all(Radius.circular(8)),
+      ),
+      focusedErrorBorder: const OutlineInputBorder(
+        borderSide: BorderSide(color: AppTheme.oxblood, width: 2),
+        borderRadius: BorderRadius.all(Radius.circular(8)),
+      ),
+      labelStyle: GoogleFonts.spaceGrotesk(
+        fontSize: 14,
+        fontWeight: FontWeight.w500,
+        color: AppTheme.darkGray,
+      ),
+      hintStyle: GoogleFonts.spaceGrotesk(
+        fontSize: 13,
+        fontWeight: FontWeight.w400,
+        color: AppTheme.darkGray.withOpacity(
+          0.6,
+        ), // estilo global para ejemplos
+      ),
+      errorStyle: GoogleFonts.spaceGrotesk(
+        fontSize: 12,
+        fontWeight: FontWeight.w400,
+        color: AppTheme.cayenneRed,
+      ),
+      helperStyle: GoogleFonts.spaceGrotesk(
+        fontSize: 12,
+        fontWeight: FontWeight.w400,
+        color: AppTheme.darkGray,
+      ),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+    ),
+    dropdownMenuTheme: DropdownMenuThemeData(
+      textStyle: GoogleFonts.spaceGrotesk(
+        fontSize: 14,
+        fontWeight: FontWeight.w400,
+        color: AppTheme.darkGray,
+      ),
+      menuStyle: MenuStyle(
+        backgroundColor: MaterialStateProperty.all(AppTheme.white),
+        shape: MaterialStateProperty.all(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+        elevation: MaterialStateProperty.all(4),
+      ),
+    ),
   );
 
   static ThemeData darkTheme = ThemeData(
@@ -128,7 +191,7 @@ class AppTheme {
     colorScheme: const ColorScheme.dark(
       primary: blueSecondary,
       secondary: bluePrimary,
-      background: darkGray,
+      surface: darkGray,
       onPrimary: white,
       onSecondary: white,
       onSurface: white,
@@ -212,6 +275,69 @@ class AppTheme {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),
+      ),
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      border: const OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(8)),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: AppTheme.white.withOpacity(
+            0.4,
+          ), // borde claro sobre fondo oscuro
+          width: 1,
+        ),
+        borderRadius: const BorderRadius.all(Radius.circular(8)),
+      ),
+      focusedBorder: const OutlineInputBorder(
+        borderSide: BorderSide(color: AppTheme.bluePrimary, width: 2),
+        borderRadius: BorderRadius.all(Radius.circular(8)),
+      ),
+      errorBorder: const OutlineInputBorder(
+        borderSide: BorderSide(color: AppTheme.cayenneRed, width: 2),
+        borderRadius: BorderRadius.all(Radius.circular(8)),
+      ),
+      focusedErrorBorder: const OutlineInputBorder(
+        borderSide: BorderSide(color: AppTheme.oxblood, width: 2),
+        borderRadius: BorderRadius.all(Radius.circular(8)),
+      ),
+      labelStyle: GoogleFonts.spaceGrotesk(
+        fontSize: 14,
+        fontWeight: FontWeight.w500,
+        color: AppTheme.white,
+      ),
+      hintStyle: GoogleFonts.spaceGrotesk(
+        fontSize: 13,
+        fontWeight: FontWeight.w400,
+        color: AppTheme.white.withOpacity(0.6), // hint claro
+      ),
+      errorStyle: GoogleFonts.spaceGrotesk(
+        fontSize: 12,
+        fontWeight: FontWeight.w400,
+        color: AppTheme.cayenneRed,
+      ),
+      helperStyle: GoogleFonts.spaceGrotesk(
+        fontSize: 12,
+        fontWeight: FontWeight.w400,
+        color: AppTheme.white.withOpacity(0.7),
+      ),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+    ),
+    dropdownMenuTheme: DropdownMenuThemeData(
+      textStyle: GoogleFonts.spaceGrotesk(
+        fontSize: 14,
+        fontWeight: FontWeight.w400,
+        color: AppTheme.white,
+      ),
+      menuStyle: MenuStyle(
+        backgroundColor: MaterialStateProperty.all(AppTheme.darkGray),
+        shape: MaterialStateProperty.all(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+        elevation: MaterialStateProperty.all(4),
       ),
     ),
   );
