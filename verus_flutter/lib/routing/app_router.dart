@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 // Importa tus screens
 import 'package:verus_flutter/screens/landing/landing_screen.dart';
+import 'package:verus_flutter/screens/landing/download/download_screen.dart';
 import 'package:verus_flutter/screens/auth/sign_in_screen.dart';
 import 'package:verus_flutter/screens/auth/sign_up_screen.dart';
 import 'package:verus_flutter/screens/dashboard/dashboard_screen.dart';
@@ -27,6 +28,11 @@ final GoRouter appRouter = GoRouter(
       path: '/register',
       name: 'register',
       builder: (context, state) => const SignUpScreen(),
+    ),
+    GoRoute(
+      path: '/download',
+      name: 'download',
+      builder: (context, state) => const DownloadPage(),
     ),
 
     // ===========================
