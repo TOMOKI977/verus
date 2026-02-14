@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:verus_flutter/core/theme.dart';
 import 'package:verus_flutter/widgets/web_layout.dart';
+import 'dart:js' as js;
 
 class DownloadCard extends StatelessWidget {
   final String title;
@@ -56,11 +57,20 @@ class DownloadCard extends StatelessWidget {
               : Colors.grey);
 
     return InkWell(
-      onTap: enabled && url != null
+      onTap: enabled
           ? () async {
-              final uri = Uri.parse(url!);
-              if (await canLaunchUrl(uri)) {
-                await launchUrl(uri, mode: LaunchMode.externalApplication);
+              if (title.contains("PWA")) {
+                // 👇 Llamada directa a la función JS definida en index.html
+                js.context.callMethod('installPWA');
+              } else if (url != null) {
+                final uri = Uri.parse(url!);
+                if (await canLaunchUrl(uri)) {
+                  await launchUrl(uri, mode: LaunchMode.externalApplication);
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("Could not launch link")),
+                  );
+                }
               }
             }
           : null,
@@ -133,7 +143,6 @@ class DownloadPage extends StatelessWidget {
         icon: FontAwesomeIcons.chrome,
         enabled: true,
         highlighted: true,
-        url: "https://verusplatform.com/pwa",
       ),
     ];
 
