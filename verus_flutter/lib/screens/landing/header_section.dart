@@ -21,7 +21,7 @@ class HeaderSection extends ConsumerWidget implements PreferredSizeWidget {
         child: Row(
           children: [
             SvgPicture.asset(
-              'images/Verus_Dark.svg',
+              'assets/images/Verus_Dark.svg',
               height: 40,
             ),
             const SizedBox(width: 12),

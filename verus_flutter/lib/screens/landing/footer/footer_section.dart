@@ -138,7 +138,7 @@ class FooterSection extends StatelessWidget {
     return Align(
       // alignment: Alignment.bottomRight,
       child: SvgPicture.asset(
-        'images/Verus_Dark.svg',
+        'assets/images/Verus_Dark.svg',
         width: 220,
         color: AppTheme.white.withOpacity(0.8),
       ),
