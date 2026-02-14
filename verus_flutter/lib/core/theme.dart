@@ -17,6 +17,15 @@ class AppTheme {
   static const Color purpleAccent = Color(0xFF8B5CF6);
   static const Color tealAccent = Color(0xFF14B8A6);
 
+  static CardThemeData highlightedCardTheme(BuildContext context) {
+    return Theme.of(context).cardTheme.copyWith(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+        side: const BorderSide(color: AppTheme.goldenOrange, width: 2),
+      ),
+    );
+  }
+
   static ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
     primaryColor: bluePrimary,
@@ -182,6 +191,20 @@ class AppTheme {
         elevation: MaterialStateProperty.all(4),
       ),
     ),
+    cardTheme: CardThemeData(
+      color: AppTheme.white,
+      shadowColor: AppTheme.blueSecondary.withOpacity(0.2),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+        side: const BorderSide(
+          color: AppTheme.blueSecondary,
+          width: 1,
+        ), // borde azul por defecto
+      ),
+      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+    ),
+    disabledColor: Colors.grey.shade300, // fondo gris para deshabilitado
+    // fondo gris para deshabilitado
   );
 
   static ThemeData darkTheme = ThemeData(
@@ -340,5 +363,18 @@ class AppTheme {
         elevation: MaterialStateProperty.all(4),
       ),
     ),
+    cardTheme: CardThemeData(
+      color: AppTheme.darkGray,
+      shadowColor: AppTheme.bluePrimary.withOpacity(0.2),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+        side: const BorderSide(
+          color: AppTheme.blueSecondary,
+          width: 1,
+        ), // borde azul por defecto
+      ),
+      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+    ),
+    disabledColor: Colors.white.withOpacity(0.1), // fondo gris tenue en dark
   );
 }
