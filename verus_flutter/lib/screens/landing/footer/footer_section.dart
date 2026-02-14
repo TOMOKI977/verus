@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:verus_flutter/core/theme.dart';
+import 'package:verus_flutter/widgets/download_button.dart';
 import 'package:verus_flutter/widgets/verus_responsive_container.dart';
 import 'footer_column.dart';
 import 'footer_social.dart';
@@ -69,16 +70,7 @@ class FooterSection extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 20),
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: AppTheme.goldenOrange,
-            foregroundColor: AppTheme.white,
-          ),
-          onPressed: () {
-            // Acción de descarga
-          },
-          child: const Text("Descargar Verus"),
-        ),
+        const DownloadButton(),
       ],
     );
   }

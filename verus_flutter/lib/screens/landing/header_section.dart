@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:verus_flutter/core/theme.dart';
+import 'package:verus_flutter/widgets/download_button.dart';
 import 'package:verus_flutter/widgets/verus_responsive_container.dart';
 import 'package:verus_flutter/providers/theme_provider.dart';
 
@@ -47,28 +47,7 @@ class HeaderSection extends ConsumerWidget implements PreferredSizeWidget {
                     : notifier.setLight();
               },
             ),
-            if (isWide)
-              ElevatedButton(
-                onPressed: () {
-                  // TODO: lógica de descarga
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppTheme.goldenOrange,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 12,
-                  ),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: const [
-                    Text('Descargar Verus'),
-                    SizedBox(width: 8),
-                    Icon(Icons.download),
-                  ],
-                ),
-              ),
+            if (isWide) const DownloadButton(),
           ],
         ),
       ),

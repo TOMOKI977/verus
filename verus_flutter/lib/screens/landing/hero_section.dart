@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:verus_flutter/core/theme.dart';
+import 'package:verus_flutter/widgets/download_button.dart';
 
 class HeroSection extends StatelessWidget {
   const HeroSection({super.key});
@@ -82,19 +83,7 @@ class HeroSection extends StatelessWidget {
                 : Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          // TODO: lógica de descarga
-                        },
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: const [
-                            Text('Descargar Verus'),
-                            SizedBox(width: 8),
-                            Icon(Icons.download),
-                          ],
-                        ),
-                      ),
+                      const DownloadButton(),
                       const SizedBox(width: 16),
                       OutlinedButton(
                         onPressed: () {
