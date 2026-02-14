@@ -18,9 +18,15 @@ class PricingSection extends StatelessWidget {
         color: highlighted ? AppTheme.bluePrimary : theme.colorScheme.surface,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
-          side: highlighted
-              ? BorderSide(color: AppTheme.goldenOrange, width: 2)
-              : BorderSide.none,
+          side: BorderSide(
+            color: highlighted
+                ? AppTheme.goldenOrange
+                : AppTheme.darkGray.withOpacity(0.3),
+            width: highlighted ? 2 : 1,
+          ),
+          // side: highlighted
+          //     ? BorderSide(color: AppTheme.goldenOrange, width: 2)
+          //     : BorderSide.none,
         ),
         child: Container(
           width: highlighted ? 300 : 250,
@@ -187,8 +193,8 @@ class PricingSection extends StatelessWidget {
     ];
 
     return Container(
-      padding: const EdgeInsets.all(40),
-      color: theme.colorScheme.background,
+      padding: const EdgeInsets.symmetric(vertical: 20),
+      color: theme.colorScheme.surface,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

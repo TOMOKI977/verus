@@ -72,7 +72,7 @@ class FaqSection extends StatelessWidget {
     ];
 
     return Container(
-      padding: const EdgeInsets.all(40),
+      padding: const EdgeInsets.only(left: 0, right: 0, top: 20, bottom: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

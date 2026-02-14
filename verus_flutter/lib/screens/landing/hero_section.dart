@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:verus_flutter/core/theme.dart';
 
 class HeroSection extends StatelessWidget {
@@ -72,7 +73,7 @@ class HeroSection extends StatelessWidget {
                       const SizedBox(height: 12),
                       OutlinedButton(
                         onPressed: () {
-                          Navigator.pushNamed(context, '/register');
+                          context.go('/register');
                         },
                         child: const Text('Empezar ahora'),
                       ),
@@ -97,7 +98,7 @@ class HeroSection extends StatelessWidget {
                       const SizedBox(width: 16),
                       OutlinedButton(
                         onPressed: () {
-                          Navigator.pushNamed(context, '/register');
+                          context.go('/register');
                         },
                         child: const Text('Empezar ahora'),
                       ),
