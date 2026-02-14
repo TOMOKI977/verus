@@ -12,7 +12,7 @@ class SignInScreen extends ConsumerWidget {
     final emailController = TextEditingController();
     final passwordController = TextEditingController();
 
-    Future<void> _login() async {
+    Future<void> login() async {
       await ref
           .read(authProvider.notifier)
           .login(
@@ -42,7 +42,7 @@ class SignInScreen extends ConsumerWidget {
               obscureText: true,
             ),
             const SizedBox(height: 20),
-            ElevatedButton(onPressed: _login, child: const Text('Ingresar')),
+            ElevatedButton(onPressed: login, child: const Text('Ingresar')),
             if (authState.isLoggedIn)
               const Text('Sesión iniciada correctamente'),
           ],
