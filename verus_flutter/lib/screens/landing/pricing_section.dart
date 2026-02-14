@@ -8,26 +8,32 @@ class PricingSection extends StatelessWidget {
     BuildContext context,
     Map<String, dynamic> plan, {
     bool highlighted = false,
+    bool enabled = true,
   }) {
     final theme = Theme.of(context);
+
+    // Usa el CardTheme global y cambia el borde si highlighted
+    final shape = highlighted
+        ? RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+            side: const BorderSide(color: AppTheme.goldenOrange, width: 2),
+          )
+        : theme.cardTheme.shape;
+
+    final textColor = enabled
+        ? (theme.brightness == Brightness.dark
+              ? AppTheme.white
+              : AppTheme.blueSecondary)
+        : (theme.brightness == Brightness.dark
+              ? Colors.white.withOpacity(0.4)
+              : Colors.grey);
 
     return Transform.translate(
       offset: highlighted ? const Offset(0, -20) : Offset.zero,
       child: Card(
+        shape: shape,
         elevation: highlighted ? 12 : 4,
-        color: highlighted ? AppTheme.bluePrimary : theme.colorScheme.surface,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-          side: BorderSide(
-            color: highlighted
-                ? AppTheme.goldenOrange
-                : AppTheme.darkGray.withOpacity(0.3),
-            width: highlighted ? 2 : 1,
-          ),
-          // side: highlighted
-          //     ? BorderSide(color: AppTheme.goldenOrange, width: 2)
-          //     : BorderSide.none,
-        ),
+        color: enabled ? theme.cardTheme.color : theme.disabledColor,
         child: Container(
           width: highlighted ? 300 : 250,
           padding: const EdgeInsets.all(20),
@@ -37,9 +43,7 @@ class PricingSection extends StatelessWidget {
               Text(
                 plan["name"] as String,
                 style: theme.textTheme.titleMedium?.copyWith(
-                  color: highlighted
-                      ? AppTheme.white
-                      : theme.colorScheme.primary,
+                  color: textColor,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -47,18 +51,16 @@ class PricingSection extends StatelessWidget {
               Text(
                 plan["price"] as String,
                 style: theme.textTheme.displaySmall?.copyWith(
-                  color: highlighted
-                      ? AppTheme.white
-                      : theme.colorScheme.onSurface,
+                  color: textColor,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Text(
                 plan["period"] as String,
                 style: theme.textTheme.bodyMedium?.copyWith(
-                  color: highlighted
-                      ? AppTheme.powderPetal
-                      : theme.colorScheme.onSurface.withOpacity(0.7),
+                  color: enabled
+                      ? theme.colorScheme.onSurface.withOpacity(0.7)
+                      : textColor,
                 ),
               ),
               const SizedBox(height: 12),
@@ -69,9 +71,11 @@ class PricingSection extends StatelessWidget {
                       : theme.colorScheme.primary,
                   foregroundColor: AppTheme.white,
                 ),
-                onPressed: () {
-                  // Acción de adquirir plan
-                },
+                onPressed: enabled
+                    ? () {
+                        // Acción de adquirir plan
+                      }
+                    : null,
                 child: const Text("Adquirir"),
               ),
               const SizedBox(height: 12),
@@ -95,9 +99,7 @@ class PricingSection extends StatelessWidget {
                               child: Text(
                                 feature,
                                 style: theme.textTheme.bodySmall?.copyWith(
-                                  color: highlighted
-                                      ? AppTheme.white
-                                      : theme.colorScheme.onSurface,
+                                  color: textColor,
                                 ),
                               ),
                             ),
@@ -207,22 +209,23 @@ class PricingSection extends StatelessWidget {
           const SizedBox(height: 20),
 
           if (isMobile)
-            // Vista mobile en columna
             Column(
               children: orderedPlans.map((plan) {
                 final highlighted = plan["name"] == "Trimestral";
+                final enabled =
+                    plan["name"] != "Customizable"; // 👈 deshabilitado
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: _buildPlanCard(
                     context,
                     plan,
                     highlighted: highlighted,
+                    enabled: enabled,
                   ),
                 );
               }).toList(),
             )
           else
-            // Vista desktop en filas
             Column(
               children: [
                 Row(
@@ -257,6 +260,7 @@ class PricingSection extends StatelessWidget {
                     _buildPlanCard(
                       context,
                       plans.firstWhere((p) => p["name"] == "Customizable"),
+                      enabled: false, // 👈 deshabilitado
                     ),
                     const SizedBox(width: 20),
                     _buildPlanCard(
