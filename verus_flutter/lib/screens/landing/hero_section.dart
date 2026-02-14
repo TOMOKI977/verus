@@ -25,7 +25,9 @@ class HeroSection extends StatelessWidget {
                   TextSpan(
                     text: 'Automatiza tu gestión P2P en ',
                     style: theme.textTheme.headlineLarge?.copyWith(
-                      fontSize: isMobile ? 56 : 84,
+                      fontSize: isMobile
+                          ? 48
+                          : 84, // 👈 ajusté un poco para móviles
                       fontWeight: FontWeight.bold,
                       color: theme.colorScheme.onSurface,
                     ),
@@ -33,7 +35,7 @@ class HeroSection extends StatelessWidget {
                   TextSpan(
                     text: 'segundos',
                     style: theme.textTheme.headlineLarge?.copyWith(
-                      fontSize: isMobile ? 56 : 84,
+                      fontSize: isMobile ? 48 : 84,
                       fontWeight: FontWeight.bold,
                       color: AppTheme.goldenOrange,
                     ),
@@ -41,6 +43,9 @@ class HeroSection extends StatelessWidget {
                 ],
               ),
               textAlign: TextAlign.center,
+              softWrap: true, // 👈 permite saltos de línea
+              overflow: TextOverflow.visible, // 👈 evita truncar
+              maxLines: 3, // 👈 opcional, asegura que no se corte raro
             ),
             const SizedBox(height: 16),
             // Subheadline
