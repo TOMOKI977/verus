@@ -5,7 +5,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:verus_flutter/core/theme.dart';
 import 'package:verus_flutter/widgets/web_layout.dart';
-import 'dart:js' as js;
+import 'dart:js_interop';
+
+@JS('installPWA')
+external void installPWA();
 
 class DownloadCard extends StatelessWidget {
   final String title;
@@ -23,18 +26,18 @@ class DownloadCard extends StatelessWidget {
     this.highlighted = false,
   });
 
-  Future<void> _launchUrl(BuildContext context) async {
-    if (url != null && enabled) {
-      final uri = Uri.parse(url!);
-      if (await canLaunchUrl(uri)) {
-        await launchUrl(uri, mode: LaunchMode.externalApplication);
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Could not launch link")),
-        );
-      }
-    }
-  }
+  // Future<void> _launchUrl(BuildContext context) async {
+  //   if (url != null && enabled) {
+  //     final uri = Uri.parse(url!);
+  //     if (await canLaunchUrl(uri)) {
+  //       await launchUrl(uri, mode: LaunchMode.externalApplication);
+  //     } else {
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         const SnackBar(content: Text("Could not launch link")),
+  //       );
+  //     }
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -60,8 +63,8 @@ class DownloadCard extends StatelessWidget {
       onTap: enabled
           ? () async {
               if (title.contains("PWA")) {
-                // 👇 Llamada directa a la función JS definida en index.html
-                js.context.callMethod('installPWA');
+                // 👇 Llamada tipada a la función JS
+                installPWA();
               } else if (url != null) {
                 final uri = Uri.parse(url!);
                 if (await canLaunchUrl(uri)) {
@@ -83,11 +86,15 @@ class DownloadCard extends StatelessWidget {
             children: [
               Icon(icon, size: 32, color: textColor),
               const SizedBox(width: 12),
-              Text(
-                title,
-                style: theme.textTheme.bodyLarge?.copyWith(
-                  color: textColor,
-                  fontWeight: enabled ? FontWeight.bold : FontWeight.normal,
+              Expanded(
+                child: Text(
+                  title,
+                  softWrap: true,
+                  overflow: TextOverflow.visible,
+                  style: theme.textTheme.bodyLarge?.copyWith(
+                    color: textColor,
+                    fontWeight: enabled ? FontWeight.bold : FontWeight.normal,
+                  ),
                 ),
               ),
             ],

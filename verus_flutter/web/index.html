@@ -42,7 +42,7 @@
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
-      window.pwaAvailable = true; // 👈 flag global
+      window.pwaAvailable = true;
     });
 
     function installPWA() {

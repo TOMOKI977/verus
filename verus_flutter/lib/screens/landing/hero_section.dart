@@ -45,7 +45,7 @@ class HeroSection extends StatelessWidget {
               textAlign: TextAlign.center,
               softWrap: true, // 👈 permite saltos de línea
               overflow: TextOverflow.visible, // 👈 evita truncar
-              maxLines: 3, // 👈 opcional, asegura que no se corte raro
+              maxLines: 4, // 👈 opcional, asegura que no se corte raro
             ),
             const SizedBox(height: 16),
             // Subheadline
